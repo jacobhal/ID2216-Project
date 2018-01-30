@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"> </script>
+	<script src="js/materialize.min.js"></script>
+
+
+
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<main>
+
+	<style>
+
+	body {
+		display: flex;
+		min-height: 100vh;
+		flex-direction: column;
+	}
+
+	main {
+		flex: 1 0 auto;
+	}
+
+
+	.page-footer {
+		padding-top: 20px;
+		color: #fff;
+		background-color: #ee6e7300;
+	}
+</style>
+
+
+<ul id="slide-out" class="side-nav">
+	<li><div class="user-view">
+
+
+
+		<a href="#!name"><span class="white-text name">John Doe</span></a>
+		<a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+	</div></li>
+	<li><div class="divider"></div></li>
+	<li><a href="add.html"><i class="material-icons">fiber_new</i>New</a></li>
+	<li><a href="tabs.html"><i class="material-icons">attach_money</i>Events</a></li>
+	<li><a href="https://stackoverflow.com/"><i class="material-icons">help_outline</i>Help</a></li>
+	<li><div class="divider"></div></li>
+
+</ul>
+<a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+
+
+<script>
+	
+  // Initialize collapse button
+  $(".button-collapse").sideNav();
+  // Initialize collapsible (uncomment the line below if you use the dropdown variation)
+  //$('.collapsible').collapsible();
+</script>
+
+
+
+
+<div class="row">
+	<h1 class="center-align">Splitter</h1>
+	<p class="center-align">Split your stuff. Splitter splits splitable bills.</p>
+</div>
+
+
+
+
+
+
+<script type="text/javascript" src="js/materialize.min.js"></script>
+</main>
+
+
+<footer class="page-footer lol">
+	<div class="container">
+		<div class="row">
+			
+		</div>
+		
+		<div class="row">
+
+			<div class="col s7 push-s5 center-align">
+				
+				<a class="btn-floating btn-large waves-effect waves-light red pulse" href="add.html">
+					<i class="material-icons">add</i>
+				</a>
+			</div>
+			<div class="col s5 pull-s7 center-align">
+				
+				<a class="btn-floating btn-large waves-effect waves-light red" href="tabs.html">
+					<i class="material-icons">edit</i>
+				</a>
+			</div>
+
+			<div class="row"> </div>
+		</div>
+	</div>
+	
+</footer>
+
+
+
+
+</html>
