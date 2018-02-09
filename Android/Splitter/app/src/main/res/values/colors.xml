@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main colors -->
+    <color name="colorPrimary">#2196f3</color>
+    <color name="colorPrimaryDark">#134873</color>
+    <color name="colorAccent">#ff4081</color>
+
+    <!-- Background colors -->
+    <color name="colorBackgroundPrimary">#111111</color>
+    <color name="colorBackgroundPrimaryDark">#111111</color>
+
+    <!-- Test colors -->
+    <color name="screenBackground">#2196F3</color>
+    <color name="screenBackground2">#26C6DA</color>
+    <color name="buttonBackground">#BBDEFB</color>
+</resources>
