@@ -4,6 +4,128 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jacob.splitter.AllTabsActivity">
+    android:background="@color/colorBackgroundPrimary"
+    tools:context="jhallman.splitter.activities.AllTabsActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/all_tabs_heading"
+            android:textAlignment="center"
+            android:textSize="@dimen/medium_text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTabs"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_padding">
+
+            <TextView
+                android:id="@+id/tv_bowling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bowling night"
+                android:textSize="@dimen/medium_text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bob 37$"
+                android:textSize="@dimen/small_text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tom 19$"
+                android:textSize="@dimen/small_text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alice 20$"
+                android:textSize="@dimen/small_text" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_small" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total 20$"
+                android:textSize="@dimen/small_text" />
+
+            <Button
+                android:id="@+id/b1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@color/colorButton"
+                android:text="Edit" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_small" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorTabs"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_padding">
+
+            <TextView
+                android:id="@+id/tv_tentapub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tentapub"
+                android:textSize="@dimen/medium_text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bob 37$"
+                android:textSize="@dimen/small_text" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Alice 20$"
+                android:textSize="@dimen/small_text" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_small" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total 20$"
+                android:textSize="@dimen/small_text" />
+
+            <Button
+                android:id="@+id/b2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@color/colorButton"
+                android:text="Edit" />
+
+        </LinearLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
