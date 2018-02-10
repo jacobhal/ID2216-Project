@@ -8,10 +8,13 @@
     <!-- Background colors -->
     <color name="colorBackgroundPrimary">#3bffffff</color>
     <color name="colorBackgroundPrimaryDark">#3bffffff</color>
+    <color name="colorBackgroundEditText">#3bffffff</color>
 
     <!-- App main component colors -->
     <color name="colorTabs">#d32f2f</color>
     <color name="colorButton">#ebfeff</color>
+    <color name="colorFloatingActionButton">#ebfeff</color>
+
 
     <!-- Test colors -->
     <color name="colorTest1">#2196F3</color>

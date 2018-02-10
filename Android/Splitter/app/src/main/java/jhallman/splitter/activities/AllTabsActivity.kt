@@ -12,14 +12,17 @@ class AllTabsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_tabs)
 
-        b1.setOnClickListener {
+
+        // TODO: Replace templates with actual db fetch onClick
+
+        fab_1.setOnClickListener {
             val intent = Intent(this, EditTabActivity::class.java)
             intent.putExtra(EditTabActivity.INTENT_TAB_TITLE, tv_bowling.text)
             intent.putExtra(EditTabActivity.INTENT_TAB_ID, 1)
             startActivity(intent)
         }
 
-        b2.setOnClickListener {
+        fab_2.setOnClickListener {
             val intent = Intent(this, EditTabActivity::class.java)
             intent.putExtra(EditTabActivity.INTENT_TAB_TITLE, tv_tentapub.text)
             intent.putExtra(EditTabActivity.INTENT_TAB_ID, 2)
