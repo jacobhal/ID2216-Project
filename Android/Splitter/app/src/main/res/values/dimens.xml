@@ -62,5 +62,5 @@
 
     <!-- Define ScrollView height -->
     <dimen name="scrollview_height">190dp</dimen>
-    <dimen name="scrollview_height_big">220dp</dimen>
+    <dimen name="scrollview_height_big">420dp</dimen>
 </resources>
