@@ -6,7 +6,7 @@
     <string name="app_name">Splitter</string>
     <string name="app_subheading">Split something</string>
 
-    <!-- TabNameDialogFragment -->
+    <!-- TabNameDialog -->
     <string name="dialog_tab_title">Create new tab</string>
     <string name="dialog_tab_message">Please enter a name for your tab</string>
     <string name="dialog_tab_cancel">Cancel</string>
@@ -22,7 +22,20 @@
     <string name="form_phone_number">Phone number</string>
 
     <!-- EditPurchaseActivity -->
+    <string name="edit_purchase_heading">Edit Purchase</string>
     <string name="purchase_hint">Price</string>
+
+    <!-- DeletePurchaseDialog -->
+    <!-- TabNameDialogFragment -->
+    <string name="dialog_purchase_title">Delete purchase</string>
+    <string name="dialog_purchase_message">Are you sure you want to delete this purchase?</string>
+    <string name="dialog_purchase_cancel">Cancel</string>
+    <string name="dialog_purchase_delete">Delete</string>
+
+    <!-- AddPurchaseActivity -->
+    <string name="purchase_subheading">Select people who made purchases</string>
+    <string name="purchase_heading">Add Purchase</string>
+    <string name="purchase_input_description">Input amount paid</string>
 
     <!-- TODO: NAVBAR RESOURCES -->
     <string name="navigation_drawer_open">Open navigation drawer</string>

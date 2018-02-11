@@ -11,10 +11,10 @@
         android:id="@+id/add_person_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:text="@string/add_person_heading"
         android:textColor="@android:color/black"
         android:textSize="50sp"
-        android:layout_marginTop="60dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +49,7 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin_small"
                 android:layout_marginRight="@dimen/activity_horizontal_margin_small"
                 android:hint="@string/form_name"
-                android:maxLines="1"/>
+                android:maxLines="1" />
         </RelativeLayout>
 
         <android.support.v4.widget.Space
@@ -70,18 +70,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin_small"
                 android:layout_marginRight="@dimen/activity_horizontal_margin_small"
+                android:digits="0123456789+"
                 android:hint="@string/form_phone_number"
-                android:maxLines="1"/>
+                android:inputType="phone"
+                android:maxLines="1" />
 
             <ImageButton
                 android:id="@+id/fab_add_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/activity_horizontal_margin_small"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin_small"
+                android:layout_marginRight="@dimen/activity_horizontal_margin_small"
                 android:background="@color/colorBackgroundPrimary"
                 app:srcCompat="@android:drawable/ic_menu_add" />
         </RelativeLayout>
@@ -91,10 +93,8 @@
         android:id="@+id/fab_add_person"
         android:layout_width="@dimen/floating_button_width_big"
         android:layout_height="@dimen/floating_button_height_big"
-        android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/colorPrimaryDark"
-        app:layout_anchorGravity="right|bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

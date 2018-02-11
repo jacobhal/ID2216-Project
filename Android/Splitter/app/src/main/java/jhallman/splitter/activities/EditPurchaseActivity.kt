@@ -1,5 +1,7 @@
 package jhallman.splitter.activities
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import jhallman.splitter.R
@@ -16,6 +18,14 @@ class EditPurchaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_purchase)
         loadPurchase()
+
+        fab_delete_purchase.setOnClickListener {
+            showPurchaseDeleteDialog()
+        }
+
+        fab_save_purchase.setOnClickListener {
+
+        }
     }
 
 
@@ -28,5 +38,21 @@ class EditPurchaseActivity : AppCompatActivity() {
         // TODO: Use resource string or separate textViews in xml file
         tv_subheading.text = title
         tv_subheading.id = id
+    }
+
+    fun showPurchaseDeleteDialog() {
+        val dialogBuilder = AlertDialog.Builder(this, R.style.AlertDialogTheme)
+        val titleString = getString(R.string.dialog_purchase_title) + ": " + tv_subheading.text
+
+        dialogBuilder.setTitle(titleString)
+        dialogBuilder.setMessage(R.string.dialog_purchase_message)
+        dialogBuilder.setPositiveButton(R.string.dialog_purchase_delete, { dialog, whichButton ->
+            // TODO: Save the purchase with this ID in db
+        })
+        dialogBuilder.setNegativeButton(R.string.dialog_purchase_cancel, { dialog, whichButton ->
+            // User cancelled
+        })
+        val b = dialogBuilder.create()
+        b.show()
     }
 }

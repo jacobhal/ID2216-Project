@@ -6,9 +6,7 @@ import jhallman.splitter.R
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.widget.Button
 import android.widget.EditText
-import jhallman.splitter.fragments.TabNameDialogFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 

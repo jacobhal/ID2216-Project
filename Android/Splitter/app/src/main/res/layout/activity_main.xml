@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackgroundPrimary"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="jhallman.splitter.activities.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="jhallman.splitter.activities.MainActivity">
 
     <TextView
         android:id="@+id/tv_heading"
@@ -27,8 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:textSize="@dimen/small_text"
         android:text="@string/app_subheading"
+        android:textSize="@dimen/small_text"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -40,12 +38,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/bottom_offset"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:clipToPadding="false"
-        android:clipChildren="false">
+        app:layout_constraintStart_toStartOf="parent">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_all_tabs"
@@ -53,9 +51,9 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_gravity="bottom|start"
             android:layout_marginLeft="@dimen/activity_horizontal_margin_big"
             android:layout_marginStart="@dimen/activity_horizontal_margin_big"
-            android:layout_gravity="bottom|start"
             app:backgroundTint="@color/colorPrimaryDark"
             app:srcCompat="@drawable/ic_toc_white_24dp" />
 
