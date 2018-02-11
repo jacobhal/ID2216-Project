@@ -18,8 +18,11 @@ class CreatedTabActivity : AppCompatActivity() {
         setContentView(R.layout.activity_created_tab)
         loadTab()
 
-        fab_edit_purchase.setOnClickListener {
-
+        fab_edit_tab.setOnClickListener {
+            val intent = Intent(this, EditTabActivity::class.java)
+            intent.putExtra(EditTabActivity.INTENT_TAB_TITLE, tv_heading.text)
+            intent.putExtra(EditTabActivity.INTENT_TAB_ID, 1)
+            startActivity(intent)
         }
 
         fab_new_purchase.setOnClickListener {

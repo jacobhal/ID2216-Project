@@ -25,6 +25,9 @@
     <string name="edit_purchase_heading">Edit Purchase</string>
     <string name="purchase_hint">Price</string>
 
+    <!-- EditTabActivity -->
+    <string name="edit_tab_heading">Edit Tab</string>
+
     <!-- DeletePurchaseDialog -->
     <!-- TabNameDialogFragment -->
     <string name="dialog_purchase_title">Delete purchase</string>

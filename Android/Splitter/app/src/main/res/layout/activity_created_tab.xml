@@ -44,7 +44,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_edit_purchase"
+            android:id="@+id/fab_edit_tab"
             android:layout_width="@dimen/floating_button_width_big"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"

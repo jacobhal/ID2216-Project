@@ -41,7 +41,7 @@ class EditTabActivity : AppCompatActivity() {
         val id = intent.getIntExtra(INTENT_TAB_ID, 0)
         requireNotNull(id) { "no tab provided in Intent extras" }
 
-        tv_heading.text = title
-        tv_heading.id = id
+        tv_subheading.text = title
+        tv_subheading.id = id
     }
 }
