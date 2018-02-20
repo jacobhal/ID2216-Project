@@ -3,20 +3,31 @@ package jhallman.splitter.activities
 import android.os.Bundle
 import jhallman.splitter.R
 
-import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.support.v7.app.AppCompatActivity
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
+import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.View
+import android.view.View.OnFocusChangeListener
+import android.view.inputmethod.InputMethodManager
 
 
-
-
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // TODO: Setup proper navigation drawer with DrawerUtil class
+        /*
+        val drawer = DrawerBuilder()
+        drawer.withActivity(this)
+        drawer.build()
+        */
 
         fab_new_tab.setOnClickListener {
             showTabCreationDialog()
@@ -36,6 +47,16 @@ class MainActivity : Activity() {
 
         val edt = dialogView.findViewById(R.id.edit1) as EditText
 
+        edt.onFocusChangeListener = object : OnFocusChangeListener {
+            override fun onFocusChange(v: View, hasFocus: Boolean) {
+                edt.post(Runnable {
+                    val inputMethodManager = this@MainActivity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.showSoftInput(edt, InputMethodManager.SHOW_IMPLICIT)
+                })
+            }
+        }
+        edt.requestFocus()
+
         dialogBuilder.setTitle(R.string.dialog_tab_title)
         dialogBuilder.setPositiveButton(R.string.dialog_tab_create, { dialog, whichButton ->
             // Get the value from EditText field
@@ -51,6 +72,9 @@ class MainActivity : Activity() {
             // User cancelled
         })
         val b = dialogBuilder.create()
+
+        edt.requestFocus()
+
         b.show()
     }
 
