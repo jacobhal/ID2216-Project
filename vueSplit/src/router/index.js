@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import WelcomeScreen from '@/components/WelcomeScreen'
 import HomeScreen from '@/components/HomeScreen'
+import AllTabs from '@/components/AllTabs'
 
 Vue.use(Router)
 
@@ -13,7 +14,12 @@ export default new Router({
       component: WelcomeScreen
     },
     {
-      path: '/jacob',
+      path: '/allTabs',
+      name: 'AllTabs',
+      component: AllTabs
+    },
+    {
+      path: '/home',
       name: 'HomeScreen',
       component: HomeScreen
     }

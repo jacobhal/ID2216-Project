@@ -1,9 +1,29 @@
 <template>
-  <v-container fluid>
-    <div>
-    <v-btn color="success" @click="func">{{msg}}</v-btn>
+  <div>
+    <v-toolbar app>
+      <v-btn icon @click="openDrawer = !openDrawer">
+        <v-icon>list</v-icon>
+    </v-btn>
+    </v-toolbar>
+    <v-navigation-drawer
+      app
+      temporary
+      v-model="openDrawer"
+      absolute
+    >
+      <v-list>
+        <v-list-tile>
+          <v-list-tile-content>
+            <v-icon>list</v-icon>
+            <v-list-tile-title>test</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-container fluid>
+
+    </v-container>
   </div>
-  </v-container>
 </template>
 
 <script>
@@ -11,14 +31,10 @@ export default {
   name: 'HomeScreen',
   data () {
     return {
-      msg: 'Press me!'
+      openDrawer: false
     }
   },
-  methods: {
-    func: function () {
-      this.msg = 'AHHAHAHAAHAHA'
-    }
-  }
+  methods: {}
 }
 </script>
 

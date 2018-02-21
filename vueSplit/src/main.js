@@ -13,6 +13,8 @@ import {
   VIcon,
   VGrid,
   VToolbar,
+  VJumbotron,
+  VDivider,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -27,6 +29,8 @@ Vue.use(Vuetify, {
     VIcon,
     VGrid,
     VToolbar,
+    VJumbotron,
+    VDivider,
     transitions
   }
 })
