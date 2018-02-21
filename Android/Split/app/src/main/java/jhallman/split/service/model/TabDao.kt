@@ -14,8 +14,8 @@ interface TabDao {
     @Query("SELECT * FROM tab")
     fun getAllTabs(): LiveData<List<Tab>>
 
-    @Query("SELECT * FROM tab WHERE id = :p0")
-    fun findTabById(id: Long): LiveData<Tab>
+    @Query("SELECT * FROM tab WHERE id = (:tabID)")
+    fun findTabById(tabID: Long): LiveData<Tab>
 
     @Insert(onConflict = REPLACE)
     fun insertTab(tab: Tab)

@@ -13,8 +13,8 @@ interface ReceiptDao {
     @Query("SELECT * FROM receipt")
     fun getAllReceipts(): LiveData<List<Receipt>>
 
-    @Query("SELECT * FROM receipt WHERE id = :p0")
-    fun findReceiptById(id: Long): LiveData<Receipt>
+    @Query("SELECT * FROM receipt WHERE id = (:receiptID)")
+    fun findReceiptById(receiptID: Long): LiveData<Receipt>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertReceipt(receipt: Receipt)

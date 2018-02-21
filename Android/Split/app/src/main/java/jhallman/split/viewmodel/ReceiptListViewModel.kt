@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import jhallman.split.service.model.Receipt
 import jhallman.split.service.model.ReceiptDao
+import javax.inject.Inject
 
 
 /**
@@ -12,7 +13,7 @@ import jhallman.split.service.model.ReceiptDao
  * Requests/aggregates data from the Model, and transforms it for the View
  */
 
-class ReceiptListViewModel(val dataSource: ReceiptDao) : ViewModel() {
+class ReceiptListViewModel @Inject constructor (val dataSource: ReceiptDao) : ViewModel() {
 
     fun getReceipts(): LiveData<List<Receipt>> {
         return dataSource.getAllReceipts()

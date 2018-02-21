@@ -1,7 +1,6 @@
 package jhallman.split.application
 
 import android.app.Application
-import jhallman.split.di.GoogleAPIComponent
 import jhallman.split.di.AppComponent
 import jhallman.split.di.AppModule
 import jhallman.split.di.DaggerAppComponent

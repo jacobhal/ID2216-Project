@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import jhallman.split.service.model.Receipt
 import jhallman.split.service.model.ReceiptDao
+import javax.inject.Inject
 
 /**
  * Created by Jacob on 2018-02-19.
@@ -15,7 +16,7 @@ import jhallman.split.service.model.ReceiptDao
  * Requests/aggregates data from the Model, and transforms it for the View
  */
 
-class ReceiptViewModel(val dataSource: ReceiptDao) : ViewModel() {
+class ReceiptViewModel @Inject constructor (val dataSource: ReceiptDao) : ViewModel() {
 
     fun getReceipt(id: Long): LiveData<Receipt> {
         return dataSource.findReceiptById(id)

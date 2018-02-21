@@ -1,5 +1,7 @@
 package jhallman.split.view.ui
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.net.Uri
 import android.os.Bundle
@@ -17,8 +19,10 @@ import jhallman.split.view.ui.fragment.AddReceiptFragment
 import jhallman.split.view.ui.fragment.EditReceiptFragment
 import jhallman.split.view.ui.fragment.*
 import jhallman.split.viewmodel.TabListViewModel
+import jhallman.split.viewmodel.TabViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import javax.inject.Inject
 
 /**
  * This Activity handles navigation between all fragments in the app
@@ -37,8 +41,9 @@ class MainActivity : AppCompatActivity(),
         AwaitingPaymentTabsFragment.OnFragmentInteractionListener,
         RunningTabsFragment.OnFragmentInteractionListener {
 
-    private lateinit var mviewModel: TabListViewModel
+    @Inject lateinit var mviewModel: TabViewModel
 
+    @Inject lateinit var mViewModelFactory: ViewModelProvider.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +64,8 @@ class MainActivity : AppCompatActivity(),
         nav_view.setNavigationItemSelectedListener(this)
 
         // TODO: Create proper viewModels and instantiate each of them in respective fragment or in this activity
-        // mviewModel = ViewModelProviders.of(this).get(TabListViewModel::class.java)
+        mviewModel = ViewModelProviders.of(this, mViewModelFactory).get(TabViewModel::class.java)
+        println(mviewModel.testHello())
 
         // Display home fragment
         displayFragment(R.id.nav_home)

@@ -6,6 +6,10 @@ import dagger.Module
 import dagger.Provides
 import jhallman.split.service.data.AppDatabase
 import javax.inject.Singleton
+import jhallman.split.viewmodel.ViewModelFactory
+import android.arch.lifecycle.ViewModelProvider
+
+
 
 /**
  * Created by Jacob on 2018-02-16.
@@ -29,4 +33,9 @@ class AppModule(private val context: Context) {
     @Provides fun providesPurchaseDao(database: AppDatabase) = database.purchaseDao()
     @Provides fun providesContactDao(database: AppDatabase) = database.contactDao()
 
+    // Factory
+    @Provides
+    fun providesViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory {
+        return factory
+    }
 }

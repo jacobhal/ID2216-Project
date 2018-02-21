@@ -1,6 +1,9 @@
+/*
 package jhallman.split.di
 
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * Created by Jacob on 2018-02-16.
@@ -12,4 +15,8 @@ import dagger.Module
 @Module
 class GoogleAPIModule() {
     // TODO: Google API implementation
+    @Provides
+    @Singleton
+    fun providesGoogleAPIURI() = "TODO"
 }
+*/

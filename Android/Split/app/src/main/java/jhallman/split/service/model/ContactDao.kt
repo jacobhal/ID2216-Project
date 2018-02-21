@@ -13,8 +13,8 @@ interface ContactDao {
     @Query("SELECT * FROM contact")
     fun getAllContacts(): LiveData<List<Contact>>
 
-    @Query("SELECT * FROM contact WHERE id = :p0")
-    fun findContactById(id: Long): LiveData<Contact>
+    @Query("SELECT * FROM contact WHERE id = (:contactID)")
+    fun findContactById(contactID: Long): LiveData<Contact>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertContact(contact: Contact)

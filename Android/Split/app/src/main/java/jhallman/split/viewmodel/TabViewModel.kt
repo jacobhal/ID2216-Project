@@ -1,9 +1,10 @@
 package jhallman.split.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.*
+import android.support.v4.app.FragmentActivity
 import jhallman.split.service.model.Tab
 import jhallman.split.service.model.TabDao
+import javax.inject.Inject
 
 /**
  * Created by Jacob on 2018-02-19.
@@ -15,9 +16,22 @@ import jhallman.split.service.model.TabDao
  * Requests/aggregates data from the Model, and transforms it for the View
  */
 
-class TabViewModel(val dataSource: TabDao) : ViewModel() {
+class TabViewModel @Inject constructor (val tabDao: TabDao): ViewModel() {
 
-    fun getTab(id: Long): LiveData<Tab> {
-        return dataSource.findTabById(id)
+    private lateinit var mTab: LiveData<Tab>
+
+    fun getAllTabs() {
+        tabDao.getAllTabs()
+    }
+
+    fun testHello(): String {
+        return "Hello"
+    }
+
+    companion object{
+        fun create(activity: FragmentActivity): TabViewModel {
+            var tabViewModel = ViewModelProviders.of(activity).get(TabViewModel::class.java)
+            return tabViewModel
+        }
     }
 }

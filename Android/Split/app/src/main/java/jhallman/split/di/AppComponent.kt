@@ -15,7 +15,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component(modules = [AppModule::class]) // GoogleAPIModule::class
+@Component(modules = [AppModule::class, ViewModelModule::class]) // GoogleAPIModule::class
 interface AppComponent {
     // MainActivity class will require injection from AppComponent.
     fun inject(target: MainActivity)

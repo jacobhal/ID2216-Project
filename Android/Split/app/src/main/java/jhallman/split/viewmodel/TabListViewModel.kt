@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import jhallman.split.service.model.Tab
 import jhallman.split.service.model.TabDao
+import javax.inject.Inject
 
 
 /**
@@ -12,7 +13,7 @@ import jhallman.split.service.model.TabDao
  * Requests/aggregates data from the Model, and transforms it for the View
  */
 
-class TabListViewModel(val dataSource: TabDao) : ViewModel() {
+class TabListViewModel @Inject constructor (val dataSource: TabDao) : ViewModel() {
 
     private lateinit var mTabs: LiveData<List<Tab>>
     private lateinit var mTab: LiveData<Tab>

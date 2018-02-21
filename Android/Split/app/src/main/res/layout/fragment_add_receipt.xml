@@ -242,7 +242,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline"
-        app:srcCompat="@drawable/ic_mode_edit_white_24dp"
+        app:srcCompat="@drawable/ic_done_white_24dp"
         app:layout_constraintVertical_bias="@dimen/vertical_bias"/>
 
 </android.support.constraint.ConstraintLayout>

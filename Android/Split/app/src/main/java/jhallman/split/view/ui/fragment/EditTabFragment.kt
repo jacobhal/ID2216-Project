@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import jhallman.split.R
+import jhallman.split.viewmodel.TabListViewModel
 import kotlinx.android.synthetic.main.fragment_edit_tab.*
 import kotlinx.android.synthetic.main.list_layout.*
 
@@ -23,7 +24,6 @@ class EditTabFragment : Fragment() {
 
     // TODO: Rename and change types of parameters
     private var mTabID: Int? = null
-
     private var mListener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
