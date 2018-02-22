@@ -1,25 +1,15 @@
 <template>
-  <v-container fill height>
-    <v-layout row align-center>
+  <v-container>
+    <v-layout row>
       <v-flex xs12>
         <h1 class="display-3 text-xs-center">VueSplit</h1>
-        <p class="subheading">Please split all the bills. We love splittng bills, it's the best</p>
+        <p class="subheading text-xs-center">Please split all the bills. We love splittng bills, it's the best</p>
       </v-flex>
     </v-layout>
-    <v-layout id="buttons" row justify-space-between>
+    <v-layout id="buttons" row align-content-center justify-center>
       <v-flex xs3>
         <v-btn
-          dark
-          fab
-          large
-          color="red"
-          @click="routeToAllTab"
-        >
-          <v-icon>list</v-icon>
-        </v-btn>
-      </v-flex>
-      <v-flex xs3>
-        <v-btn
+          class="text-xs-center"
           dark
           fab
           large
@@ -61,6 +51,6 @@ h1 {
   margin-top: 40%
 }
 #buttons {
-  margin-top: 80%
+  margin-top: 50%
 }
 </style>
