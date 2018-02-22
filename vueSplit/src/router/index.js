@@ -16,7 +16,7 @@ export default new Router({
     {
       path: '/allTabs',
       name: 'AllTabsScreen',
-      component: AllTabs
+      component: AllTabsScreen
     },
     {
       path: '/home',
