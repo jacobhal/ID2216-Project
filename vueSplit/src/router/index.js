@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import WelcomeScreen from '@/components/WelcomeScreen'
 import HomeScreen from '@/components/HomeScreen'
-import AllTabs from '@/components/AllTabs'
+import AllTabs from '@/components/AllTabsScreen'
 
 Vue.use(Router)
 
@@ -15,8 +15,8 @@ export default new Router({
     },
     {
       path: '/allTabs',
-      name: 'AllTabs',
-      component: AllTabs
+      name: 'AllTabsScreen',
+      component: AllTabsScreen
     },
     {
       path: '/home',
