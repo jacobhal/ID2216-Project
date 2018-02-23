@@ -25,7 +25,7 @@
 
 <script>
 // Add mapGetters from Vuex
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'AllTabs',
   data () {

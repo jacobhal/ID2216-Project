@@ -22,9 +22,11 @@ const mutations = {
 }
 
 // Actions: event handlers that manipulate the state ASYNCHRONOUSLY
+/*
 const actions = {
 
 }
+*/
 
 // Getters: used access data in the store from within our Vue components
 const getters = {

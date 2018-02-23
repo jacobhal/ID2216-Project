@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import WelcomeScreen from '@/components/WelcomeScreen'
 import HomeScreen from '@/components/HomeScreen'
-import AllTabs from '@/components/AllTabsScreen'
+import AllTabsScreen from '@/components/AllTabsScreen'
 
 Vue.use(Router)
 
