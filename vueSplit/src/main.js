@@ -15,6 +15,7 @@ import {
   VToolbar,
   VJumbotron,
   VDivider,
+  VAvatar,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -31,6 +32,7 @@ Vue.use(Vuetify, {
     VToolbar,
     VJumbotron,
     VDivider,
+    VAvatar,
     transitions
   }
 })
