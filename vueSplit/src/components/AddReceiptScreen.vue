@@ -16,7 +16,7 @@
                <v-list-tile-title>Add New Person</v-list-tile-title>
              </v-list-tile-content>
              <v-list-tile-avatar>
-               <v-icon @click="shit">person_add</v-icon>
+               <v-icon>person_add</v-icon>
              </v-list-tile-avatar>
            </v-list-tile>
           </v-list>
