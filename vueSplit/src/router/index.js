@@ -4,6 +4,7 @@ import WelcomeScreen from '@/components/WelcomeScreen'
 import HomeScreen from '@/components/HomeScreen'
 import AddReceiptScreen from '@/components/AddReceiptScreen'
 import AllTabsScreen from '@/components/AllTabsScreen'
+import InputAmountScreen from '@/components/InputAmountScreen'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/addReceipt',
       name: 'AddReceiptScreen',
       component: AddReceiptScreen
+    },
+    {
+      path: '/inputAmount',
+      name: 'InputAmountScreen',
+      component: InputAmountScreen
     }
   ]
 })
