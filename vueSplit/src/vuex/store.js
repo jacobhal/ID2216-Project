@@ -84,7 +84,6 @@ const mutations = {
   },
   EDIT_RECEIPT (state, receipt) {
     var index = state.receipts.findIndex(currentReceipt => currentReceipt.id === receipt.id)
-    alert(index)
     state.receipts.splice(index, 1, receipt)
   }
 }
@@ -101,8 +100,10 @@ const actions = {
   getReceipt ({commit}, tab) { commit('GET_RECEIPT', tab) },
   addReceipt ({commit}, payload) {
     commit('ADD_RECEIPT', payload)
-    // var tab = state.tabs.find(tab => tab.id === payload.tabId)
     // We need to update the relations for the new receipt
+    // var tab = state.tabs.find(tab => tab.id === payload.tabId)
+    // tab.purchases.push(<NEW-RECEIPT-ID>)
+    // commit('EDIT_TAB', tab)
   },
   editReceipt ({commit}, receipt) { commit('EDIT_RECEIPT', receipt) }
 }
