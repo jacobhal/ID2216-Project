@@ -45,7 +45,7 @@ export default {
     goBack: function () {
       this.$router.back()
     },
-    addReceipt () {
+    addReceipt: function () {
       this.$store.dispatch('addReceipt', {
         title: this.receiptTitle,
         purchases: this.purchases,
@@ -53,7 +53,7 @@ export default {
         tabId: this.tabId
       })
     },
-    editReceipt (receipt) {
+    editReceipt: function (receipt) {
       this.$store.dispatch('editReceipt', {
         title: 'TEST',
         purchases: this.purchases,
@@ -61,7 +61,7 @@ export default {
         id: receipt.id
       })
     },
-    deleteReceipt (receipt) {
+    deleteReceipt: function (receipt) {
       this.$store.dispatch('deleteReceipt', receipt)
     }
   },
