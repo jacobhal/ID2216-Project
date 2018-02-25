@@ -33,7 +33,8 @@ export default {
   data () {
     return {
       receiptTitle: '',
-      purchases: [1, 2, 3],
+      purchases: ['1', '2', '3'],
+      persons: ['1', '2', '3'],
       tabId: this.$route.params.id
     }
   },
@@ -48,6 +49,7 @@ export default {
       this.$store.dispatch('addReceipt', {
         title: this.receiptTitle,
         purchases: this.purchases,
+        persons: this.persons,
         tabId: this.tabId
       })
     },

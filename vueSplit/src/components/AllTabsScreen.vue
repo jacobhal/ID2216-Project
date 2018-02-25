@@ -32,8 +32,8 @@ export default {
   data () {
     return {
       tabTitle: '',
-      persons: [1, 2, 3],
-      receipts: [2, 3, 4]
+      persons: ['1', '2', '3'],
+      receipts: ['2', '3', '4']
     }
   },
   methods: {

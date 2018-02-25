@@ -12,10 +12,10 @@ const state = {
   ],
   activeTab: {},
   receipts: [
-    {id: '1', title: 'Tentapub', purchases: ['1', '2'], totalPrice: 100, tabId: '1'},
-    {id: '2', title: 'Bowling', purchases: ['3', '4'], totalPrice: 200, tabId: '1'},
-    {id: '3', title: 'Cypern', purchases: ['5', '6'], totalPrice: 300, tabId: '2'},
-    {id: '4', title: 'Kinamuren schleeeeee', purchases: ['7', '8'], tabId: '2'}
+    {id: '1', title: 'Tentapub', purchases: ['1', '2'], persons: ['1', '2'], totalPrice: 100, tabId: '1'},
+    {id: '2', title: 'Bowling', purchases: ['3', '4'], persons: ['3', '1'], totalPrice: 200, tabId: '1'},
+    {id: '3', title: 'Cypern', purchases: ['5', '6'], persons: ['2', '3'], totalPrice: 300, tabId: '2'},
+    {id: '4', title: 'Kinamuren schleeeeee', purchases: ['7', '8'], persons: ['1', '2'], tabId: '2'}
   ],
   activeReceipt: {},
   purchases: [
@@ -92,20 +92,10 @@ const mutations = {
   DELETE_RECEIPT (state, receipt) {
     var receipts = state.receipts
     receipts.splice(receipts.indexOf(receipt), 1)
-    var tab = state.tabs.find(tab => tab.id === receipt.tabId)
-    if (tab !== undefined) {
-      var receiptIndex = tab.receipts.indexOf(receipt.id)
-      tab.receipts.splice(receiptIndex, 1)
-    }
   },
   DELETE_PURCHASE (state, purchase) {
     var purchases = state.purchases
     purchases.splice(purchases.indexOf(purchase), 1)
-    var receipt = state.receipts.find(receipt => receipt.id === purchase.receiptId)
-    if (receipt !== undefined) {
-      var purchaseIndex = receipt.purchases.indexOf(purchase.id)
-      receipt.purchases.splice(purchaseIndex, 1)
-    }
   },
   DELETE_PERSON (state, person) {
     var persons = state.persons
@@ -129,6 +119,36 @@ const mutations = {
   },
   TOGGLE_TAB (state, tab) {
     tab.running = !tab.running
+  },
+  ADD_PERSON_TO_RECEIPT (state, payload) {
+    var receiptIndex = state.receipts.findIndex(currentReceipt => currentReceipt.id === payload.receiptId)
+    var receipt = state.receipts[receiptIndex].persons.push(payload.personId)
+    state.receipts.splice(receiptIndex, 1, receipt)
+  },
+  ADD_PERSON_TO_TAB (state, payload) {
+    var tabIndex = state.tabs.findIndex(currentTab => currentTab.id === payload.tabId)
+    var tab = state.tabs[tabIndex].persons.push(payload.personId)
+    state.tabs.splice(tabIndex, 1, tab)
+  },
+  DELETE_PERSON_FROM_RECEIPT (state, payload) {
+    var receiptIndex = state.receipts.findIndex(currentReceipt => currentReceipt.id === payload.receiptId)
+    var receipt = state.receipts[receiptIndex]
+    if (receiptIndex !== undefined) {
+      var personIndex = receipt.persons.indexOf(payload.personId)
+    }
+    if (personIndex !== undefined) {
+      receipt.persons.splice(personIndex, 1)
+    }
+  },
+  DELETE_PERSON_FROM_TAB (state, payload) {
+    var tabIndex = state.tabs.findIndex(currentTab => currentTab.id === payload.tabId)
+    var tab = state.tabs[tabIndex]
+    if (tabIndex !== undefined) {
+      var personIndex = tab.persons.indexOf(payload.personId)
+    }
+    if (personIndex !== undefined) {
+      tab.persons.splice(personIndex, 1)
+    }
   }
 }
 
@@ -150,7 +170,14 @@ const actions = {
     tab.receipts.push(addedReceipt.id)
     commit('EDIT_TAB', tab)
   },
-  deleteReceipt ({commit}, receipt) { commit('DELETE_RECEIPT', receipt) },
+  deleteReceipt ({commit}, receipt) {
+    commit('DELETE_RECEIPT', receipt)
+    var tab = state.tabs.find(tab => tab.id === receipt.tabId)
+    if (tab !== undefined) {
+      var receiptIndex = tab.receipts.indexOf(receipt.id)
+      tab.receipts.splice(receiptIndex, 1)
+    }
+  },
   editReceipt ({commit}, receipt) { commit('EDIT_RECEIPT', receipt) },
   // Purchase actions
   addPurchase ({commit}, payload) {
@@ -161,14 +188,25 @@ const actions = {
     receipt.purchases.push(addedPurchase.id)
     commit('EDIT_RECEIPT', receipt)
   },
-  deletePurchase ({commit}, purchase) { commit('DELETE_PURCHASE', purchase) },
+  deletePurchase ({commit}, purchase) {
+    commit('DELETE_PURCHASE', purchase)
+    var receipt = state.receipts.find(receipt => receipt.id === purchase.receiptId)
+    if (receipt !== undefined) {
+      var purchaseIndex = receipt.purchases.indexOf(purchase.id)
+      receipt.purchases.splice(purchaseIndex, 1)
+    }
+  },
   editPurchase ({commit}, purchase) { commit('EDIT_PURCHASE', purchase) },
   // Person actions
   addPerson ({commit}, payload) { commit('ADD_PERSON', payload) },
   deletePerson ({commit}, person) { commit('DELETE_PERSON', person) },
+  // This method takes an object {personId: <ID>, tabUd: <ID>}
   deletePersonFromTab ({commit}, person) {
-    commit('DELETE_PERSON', person)
-    // TODO: How should this be handled if the person has made purchases?
+    commit('DELETE_PERSON_FROM_TAB', person)
+  },
+  // This method takes an object {personId: <ID>, receiptId: <ID>}
+  deletePersonFromReceipt ({commit}, person) {
+    commit('DELETE_PERSON_FROM_RECEIPT', person)
   },
   editPerson ({commit}, person) { commit('EDIT_PERSON', person) }
 }
