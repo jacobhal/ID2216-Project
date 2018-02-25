@@ -6,6 +6,10 @@ Vue.use(Vuex)
 
 // The State Tree: an object that contains all the application level state
 const state = {
+  addedTabId: '',
+  addedReceiptId: '',
+  addedPurchaseId: '',
+  addedPersonId: '',
   tabs: [
     {id: '1', title: 'TestTab1', receipts: ['1', '2'], persons: ['1', '2', '3'], running: true},
     {id: '2', title: 'TestTab2', receipts: ['3', '4'], persons: ['1', '2', '3'], running: false}
@@ -44,13 +48,15 @@ const mutations = {
     state.activeReceipt = receipt
   },
   ADD_TAB (state, payload) {
+    var id = uuidv4()
     const newTab = {
-      id: uuidv4(),
+      id: id,
       title: payload.title,
       receipts: payload.receipts,
       persons: payload.persons,
       running: true
     }
+    Vue.set(state, 'addedTabId', id)
     state.tabs.push(newTab)
   },
   ADD_RECEIPT (state, payload) {
@@ -59,30 +65,36 @@ const mutations = {
     for (var i = purchases.length - 1; i >= 0; i--) {
       totalPrice += purchases[i].price
     }
+    var id = uuidv4()
     const newReceipt = {
-      id: uuidv4(),
+      id: id,
       title: payload.title,
       purchases: payload.purchases,
       totalPrice: totalPrice,
       tabId: payload.tabId
     }
+    Vue.set(state, 'addedReceiptId', id)
     state.receipts.push(newReceipt)
   },
   ADD_PURCHASE (state, payload) {
+    var id = uuidv4()
     const newPurchase = {
-      id: uuidv4(),
+      id: id,
       person: payload.person,
       price: payload.price,
       receiptId: payload.receiptId
     }
+    Vue.set(state, 'addedPurchaseId', id)
     state.purchases.push(newPurchase)
   },
   ADD_PERSON (state, payload) {
+    var id = uuidv4()
     const newPerson = {
-      id: uuidv4(),
+      id: id,
       name: payload.name,
       phoneNumber: payload.phoneNumber
     }
+    Vue.set(state, 'addedPersonId', id)
     state.persons.push(newPerson)
   },
   DELETE_TAB (state, tab) {
