@@ -1,5 +1,6 @@
 <template>
-  <v-container>
+  <div>
+  <v-container v-if="!successfullyAdded">
     <v-layout row>
       <v-flex xs12>
         <h1 class="display-3 text-xs-center">Amount</h1>
@@ -36,11 +37,19 @@
     </v-layout>
     <!-- Submit button, only red when all input fields are valid -->
     <v-layout row align-content-center justify-center>
-      <v-btn id="submitButton" v-bind:color="color" large fab dark @click="submit">
+      <v-btn class="submitContainer" v-bind:color="color" large fab dark @click="submit">
         <v-icon>check</v-icon>
       </v-btn>
     </v-layout>
   </v-container>
+  <v-container v-if="successfullyAdded" class="text-xs-center">
+    <v-icon size="30vw" transition="fade-transition" color="green">check_circle</v-icon>
+    <p class="display-1" transition="fade-transition">Receipt successfully added!</p>
+    <v-btn @click="routeToHome" dark color="green">Continue
+      <v-icon right>navigate_next</v-icon>
+    </v-btn>
+  </v-container>
+</div>
 </template>
 
 
@@ -58,7 +67,8 @@ export default {
       inputRules: [
         () => !!this.amounts[0] || 'This field is required',
         v => /^\d+(\.\d+)?$/.test(v) || 'Field can only contain numbers'
-      ]
+      ],
+      successfullyAdded: false
     }
   },
   created: function () {
@@ -85,14 +95,16 @@ export default {
         for (var i = 0; i < this.persons.length; i++) {
           this.addPurchase(this.persons[i], parseFloat(this.amounts[i]), receiptID)
         }
-        alert('This has been added to the receipt') // TODO: Handle this nicer with cooler prompt and continue button
-        this.$router.push({ path: `/home` })
+        this.successfullyAdded = true
       } else {
         alert('All fields must be filled in and the must only contain numbers')
       }
     },
     isTrue: function (value) {
       return value
+    },
+    routeToHome: function () {
+      this.$router.push({ path: `/home` })
     },
     validate: function () {
       this.allFieldsValid = this.validFields.every(this.isTrue)
@@ -124,7 +136,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#submitButton {
+.submitContainer {
   margin-top: 10%
 }
 </style>
