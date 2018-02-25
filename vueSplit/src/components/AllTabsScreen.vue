@@ -7,44 +7,66 @@
     </v-toolbar>
     <v-container grid-list-md text-xs-center>
       <h1 class="display-2">All Tabs</h1>
-      <a v-for="tab in getTabs">
+      <div v-for="tab in tabs" :key="tab.id">
         <v-layout row wrap>
           <v-flex xs12>
-            <!-- Add component for one single tab here -->
-            <h5>{{ tab.title }}</h5>
-          </v-flex>
-          <v-flex xs12>
-            <!-- Add component for one single tab here -->
+              <!-- Add component for one single tab here -->
+            <a @click="routeToEditTabScreen(tab.id)">
+              <h3>{{ tab.title }} ({{ tab.running ? 'Running' : 'Closed' }})</h3>
+            </a>
+            <v-btn @click="deleteTab(tab)">Delete</v-btn>
+            <v-btn @click="toggleTab(tab)">Toggle status</v-btn>
           </v-flex>
         </v-layout>
-      </a>
-      <v-btn @click="addTab('Test')">Add new tab</v-btn>
+      </div>
+      <input v-model='tabTitle' placeholder="Tab title">
+      <v-btn @click="addTab">Add new tab</v-btn>
     </v-container>
   </div>
 </template>
 
 <script>
-// Add mapGetters from Vuex
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
-  name: 'AllTabs',
+  name: 'AllTabsSceen',
   data () {
     return {
+      tabTitle: '',
+      persons: [1, 2, 3],
+      receipts: [2, 3, 4]
     }
   },
   methods: {
     goBack: function () {
       this.$router.back()
     },
-    ...mapMutations([
-      'addTab'
-    ])
+    routeToEditTabScreen: function (id) {
+      this.$router.push({name: 'EditTabScreen', params: { id: id }})
+    },
+    // Store methods
+    getTab (e) {
+      this.$store.dispatch('getTab', e.target.value)
+    },
+    addTab () {
+      this.$store.dispatch('addTab', {
+        title: this.tabTitle,
+        persons: this.persons,
+        receipts: this.receipts,
+        running: true
+      })
+    },
+    deleteTab (tab) {
+      this.$store.dispatch('deleteTab', tab)
+    },
+    toggleTab (tab) {
+      this.$store.dispatch('toggleTab', tab)
+    }
   },
-  // Since Vuex stores are reactive, the simplest way to "retrieve" state from it is simply returning some
-  // store state from within a computed property:
-  computed: mapGetters([
-    'getTabs'
-  ])
+  computed: {
+    ...mapGetters([
+      'tabs'
+    ])
+  }
 }
 </script>
 
