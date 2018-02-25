@@ -11,6 +11,7 @@
         <v-card>
           <v-list>
             <!-- Add new person list item -->
+            <!-- TODO: @click route to add person screen -->
             <v-list-tile avatar>
              <v-list-tile-content>
                <v-list-tile-title>Add New Person</v-list-tile-title>
@@ -24,27 +25,22 @@
           <!-- Recent people list items -->
           <v-list subheader>
             <v-subheader>Already on this tab</v-subheader>
-            <!-- TODO: Iterate over all people in tab and add list item for each -->
-            <v-list-tile>
-             <v-list-tile-content>
-               <v-list-tile-title>Name of person</v-list-tile-title>
-             </v-list-tile-content>
-             <v-list-tile-action>
-              <v-checkbox v-model="people[0]"></v-checkbox>
-            </v-list-tile-action>
-           </v-list-tile>
-           <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title>Name of person</v-list-tile-title>
-            </v-list-tile-content>
-            <v-list-tile-action>
-             <v-checkbox v-model="people[1]"></v-checkbox>
-           </v-list-tile-action>
-          </v-list-tile>
+            <template v-for="(person, index) in persons">
+              <v-list-tile>
+               <v-list-tile-content>
+                 <v-list-tile-title>{{ person.name }}</v-list-tile-title>
+               </v-list-tile-content>
+               <v-list-tile-action>
+                <v-checkbox v-model="peopleSelected[index].selected"></v-checkbox>
+              </v-list-tile-action>
+             </v-list-tile>
+            </template>
           </v-list>
         </v-card>
       </v-flex>
     </v-layout>
+    <!-- TODO: @click Navigate to InputAmountScreen and send selected people as params.
+      Check that atleast one person was selected. -->
     <v-layout row align-content-center justify-center>
       <v-btn id="nextButton" color="red" large fab dark>
         <v-icon>navigate_next</v-icon>
@@ -58,7 +54,18 @@ export default {
   name: 'AddReceiptScreen',
   data () {
     return {
-      people: [false, false]
+      tabId: this.$route.params.id,
+      peopleSelected: [] // contains objects {id: personID, selected: boolean}
+    }
+  },
+  created: function () {
+    // Get people on this tab
+    const tab = this.$store.getters.tabById(this.$route.params.id)
+    this.persons = this.$store.getters.tabPersons(tab)
+    // Each person on the tab is not selected at first
+    for (let person of this.persons) {
+      const obj = {id: person.id, selected: false}
+      this.peopleSelected.push(obj)
     }
   },
   methods: {

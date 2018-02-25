@@ -38,7 +38,7 @@ export default {
       tabId: this.$route.params.id
     }
   },
-  created () {
+  created: function () {
     this.tab = this.$store.getters.tabById(this.$route.params.id)
   },
   methods: {

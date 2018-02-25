@@ -5,6 +5,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+*VueSplit.html
+*VueSplit_files
+
 # Editor directories and files
 .idea
 .vscode
