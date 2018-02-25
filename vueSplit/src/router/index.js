@@ -32,7 +32,7 @@ export default new Router({
       component: EditTabScreen
     },
     {
-      path: '/addReceipt',
+      path: '/addReceipt/:id',
       name: 'AddReceiptScreen',
       component: AddReceiptScreen
     },
