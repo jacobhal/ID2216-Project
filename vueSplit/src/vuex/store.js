@@ -226,16 +226,26 @@ const getters = {
   },
   // Get things related to receipts
   receipts: state => state.receipts,
+  receiptById: (state) => (id) => { return state.receipts.find(receipt => receipt.id === id) },
   receiptPurchases: (state) => (receipt) => {
     return receipt.purchases.map(purchaseId => state.purchases.find(purchase => purchase.id === purchaseId))
   },
+  receiptPersons: (state) => (receipt) => {
+    return receipt.persons.map(personId => state.persons.find(person => person.id === personId))
+  },
+  receiptTab: (state) => (receipt) => { return state.tabs.find(tab => tab.id === receipt.tabId) },
   // Get things related to purchases
   purchases: state => state.purchases,
+  purchaseById: (state) => (id) => { return state.purchases.find(purchase => purchase.id === id) },
   purchasePerson: (state) => (purchase) => {
     return purchase.persons.map(personId => state.persons.find(person => person.id === personId))
   },
+  purchaseReceipt: state => (purchase) => {
+    return state.receipts.find(receipt => receipt.id === purchase.receiptId)
+  },
   // Get things related to persons
-  persons: state => state.persons
+  persons: state => state.persons,
+  personById: (state) => (id) => { return state.persons.find(person => person.id === id) }
 }
 
 // create the Vuex instance by combining the state and mutations objects
