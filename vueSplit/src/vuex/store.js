@@ -154,14 +154,31 @@ const mutations = {
 
 // Actions: event handlers that manipulate the state ASYNCHRONOUSLY
 const actions = {
-  // Tab actions
+  /**
+   * TAB ACTIONS
+   */
+  // {id: '1', title: 'TestTab1', receipts: ['1', '2'], persons: ['1', '2', '3'], running: true},
+  // This method can be used to observe changes on the activeTab element in the state
   getTab ({commit}, tab) { commit('GET_TAB', tab) },
+  // This method takes an object {title: <TITLE>, title: <TITLE>,
+  // receipts: <RECEIPT_ID_ARRAY>, persons: <PERSON_ID_ARRAY>, running: <BOOLEAN>}
   addTab ({commit}, payload) { commit('ADD_TAB', payload) },
+  // This method takes an object {id: <ID>, title: <TITLE>, title: <TITLE>,
+  // receipts: <RECEIPT_ID_ARRAY>, persons: <PERSON_ID_ARRAY>, running: <BOOLEAN>}
   deleteTab ({commit}, tab) { commit('DELETE_TAB', tab) },
+  // This method takes an object {id: <ID>, title: <TITLE>, title: <TITLE>,
+  // receipts: <RECEIPT_ID_ARRAY>, persons: <PERSON_ID_ARRAY>, running: <BOOLEAN>}
   editTab ({commit}, tab) { commit('EDIT_TAB', tab) },
+  // This method takes an object {id: <ID>, title: <TITLE>, title: <TITLE>,
+  // receipts: <RECEIPT_ID_ARRAY>, persons: <PERSON_ID_ARRAY>, running: <BOOLEAN>}
   toggleTab ({commit}, tab) { commit('TOGGLE_TAB', tab) },
-  // Receipt actions
+  /**
+   * RECEIPT ACTIONS
+   */
+  // This method can be used to observe changes on the activeReceipt element in the state
   getReceipt ({commit}, tab) { commit('GET_RECEIPT', tab) },
+  // This method takes an object {title: <TITLE>, purchases: <PURCHASE_ID_ARRAY>,
+  // persons: <PERSON_ID_ARRAY>, totalPrice: <TOTALPRICE>, tabId: <TAB_ID>}
   addReceipt ({commit}, payload) {
     commit('ADD_RECEIPT', payload)
     // We need to update the relations for the new receipt
@@ -170,6 +187,9 @@ const actions = {
     tab.receipts.push(addedReceipt.id)
     commit('EDIT_TAB', tab)
   },
+  // This method takes an object {id: <ID>, title: <TITLE>, purchases: <PURCHASE_ID_ARRAY>,
+  // persons: <PERSON_ID_ARRAY>, totalPrice: <TOTALPRICE>, tabId: <TAB_ID>}
+  // OBS: Has to be an exact match for the object to be deleted
   deleteReceipt ({commit}, receipt) {
     commit('DELETE_RECEIPT', receipt)
     var tab = state.tabs.find(tab => tab.id === receipt.tabId)
@@ -178,8 +198,13 @@ const actions = {
       tab.receipts.splice(receiptIndex, 1)
     }
   },
+  // This method takes an object {id: <ID>, title: <TITLE>, purchases: <PURCHASE_ID_ARRAY>,
+  // persons: <PERSON_ID_ARRAY>, totalPrice: <TOTALPRICE>, tabId: <TAB_ID>}
   editReceipt ({commit}, receipt) { commit('EDIT_RECEIPT', receipt) },
-  // Purchase actions
+  /**
+   * PURCHASE ACTIONS
+   */
+  // This method takes an object {person: <PERSON_ID>, price: <PRICE>, receiptId: <RECEIPT_ID>}
   addPurchase ({commit}, payload) {
     commit('ADD_PURCHASE', payload)
     // We need to update the relations for the new purchase
@@ -188,6 +213,8 @@ const actions = {
     receipt.purchases.push(addedPurchase.id)
     commit('EDIT_RECEIPT', receipt)
   },
+  // This method takes an object {id: <ID>, person: <PERSON_ID>, price: <PRICE>, receiptId: <RECEIPT_ID>}
+  // OBS: Has to be an exact match for the object to be deleted
   deletePurchase ({commit}, purchase) {
     commit('DELETE_PURCHASE', purchase)
     var receipt = state.receipts.find(receipt => receipt.id === purchase.receiptId)
@@ -196,55 +223,87 @@ const actions = {
       receipt.purchases.splice(purchaseIndex, 1)
     }
   },
+  // This method takes an object {id: <ID>, person: <PERSON_ID>, price: <PRICE>, receiptId: <RECEIPT_ID>}
   editPurchase ({commit}, purchase) { commit('EDIT_PURCHASE', purchase) },
-  // Person actions
+  /**
+   * PERSON ACTIONS
+   */
+  // This method takes an object {name: <NAME>, phoneNumber: <NUMBER>}
   addPerson ({commit}, payload) { commit('ADD_PERSON', payload) },
+  // This method takes an object {id: <ID>, name: <NAME>, phoneNumber: <NUMBER>}
+  // OBS: Has to be an exact match for the object to be deleted
   deletePerson ({commit}, person) { commit('DELETE_PERSON', person) },
-  // This method takes an object {personId: <ID>, tabUd: <ID>}
-  deletePersonFromTab ({commit}, person) {
-    commit('DELETE_PERSON_FROM_TAB', person)
-  },
+  // This method takes an object {personId: <ID>, tabId: <ID>}
+  deletePersonFromTab ({commit}, person) { commit('DELETE_PERSON_FROM_TAB', person) },
   // This method takes an object {personId: <ID>, receiptId: <ID>}
-  deletePersonFromReceipt ({commit}, person) {
-    commit('DELETE_PERSON_FROM_RECEIPT', person)
-  },
+  deletePersonFromReceipt ({commit}, person) { commit('DELETE_PERSON_FROM_RECEIPT', person) },
+  // This method takes an object {personId: <ID>, tabId: <ID>}
+  addPersonToTab ({commit}, person) { commit('ADD_PERSON_TO_TAB', person) },
+  // This method takes an object {personId: <ID>, receiptId: <ID>}
+  addPersonToReceipt ({commit}, person) { commit('ADD_PERSON_TO_RECEIPT', person) },
+  // This method takes an object {id: <ID>, name: <NAME>, phoneNumber: <NUMBER>}
   editPerson ({commit}, person) { commit('EDIT_PERSON', person) }
 }
 
 // Getters: used access data in the store from within our Vue components
 const getters = {
-  // Get things related to tabs
+  /**
+   * TAB GETTERS
+   */
+  // Get all tabs
   tabs: state => state.tabs,
+  // Get a tab by id
   tabById: (state) => (id) => { return state.tabs.find(tab => tab.id === id) },
+  // Get all running tabs
   runningTabs: state => { return state.tabs.filter(tab => tab.running) },
+  // Get all awaiting payment tabs
   awaitingPaymentTabs: state => { return state.tabs.filter(tab => !tab.running) },
+  // Get all receipts of this tab
   tabReceipts: (state) => (tab) => {
     return tab.receipts.map(receiptId => state.receipts.find(receipt => receipt.id === receiptId))
   },
+  // Get all persons of this tab
   tabPersons: (state) => (tab) => {
     return tab.persons.map(personId => state.persons.find(person => person.id === personId))
   },
-  // Get things related to receipts
+  /**
+   * RECEIPT GETTERS
+   */
+  // Get all receipts
   receipts: state => state.receipts,
+  // Get a receipt by id
   receiptById: (state) => (id) => { return state.receipts.find(receipt => receipt.id === id) },
+  // Get all purchases of this receipt
   receiptPurchases: (state) => (receipt) => {
     return receipt.purchases.map(purchaseId => state.purchases.find(purchase => purchase.id === purchaseId))
   },
+  // Get all persons of this receipt
   receiptPersons: (state) => (receipt) => {
     return receipt.persons.map(personId => state.persons.find(person => person.id === personId))
   },
+  // Get the tab that this receipt is associated with
   receiptTab: (state) => (receipt) => { return state.tabs.find(tab => tab.id === receipt.tabId) },
-  // Get things related to purchases
+  /**
+   * PURCHASE GETTERS
+   */
+  // Get all purchases
   purchases: state => state.purchases,
+  // Get a purchase by id
   purchaseById: (state) => (id) => { return state.purchases.find(purchase => purchase.id === id) },
+  // Get the person that this purchase is associated with
   purchasePerson: (state) => (purchase) => {
     return purchase.persons.map(personId => state.persons.find(person => person.id === personId))
   },
+  // Get the receipt that this purchase is associated with
   purchaseReceipt: state => (purchase) => {
     return state.receipts.find(receipt => receipt.id === purchase.receiptId)
   },
-  // Get things related to persons
+  /**
+   * PERSON GETTERS
+   */
+  // Get all persons
   persons: state => state.persons,
+  // Get a person by id
   personById: (state) => (id) => { return state.persons.find(person => person.id === id) }
 }
 
