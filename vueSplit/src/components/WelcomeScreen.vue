@@ -58,8 +58,6 @@ export default {
   name: 'WelcomeScreen',
   data () {
     return {
-      pathToAllTabs: '/allTabs',
-      routeToHomeScreen: 'HomeScreen',
       tabTitle: '',
       dialog3: false
     }
@@ -75,7 +73,8 @@ export default {
     },
     createNewTabAndRouteToHomeScreen: function () {
       this.addTab()
-      this.$router.push({ name: this.routeToHomeScreen, params: { tabTitle: this.tabTitle } })
+      var tabId = this.$store.state.tabs[this.$store.state.tabs.length - 1].id
+      this.$router.push({ name: 'HomeScreen', params: { id: tabId } })
     },
     startTimer () {
       this.dialog3 = true

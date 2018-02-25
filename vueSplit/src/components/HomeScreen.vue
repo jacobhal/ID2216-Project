@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container fluid>
-      <h1 class="display-2 center">{{ this.tabTitle }}</h1>
+      <h1 class="display-2 center">{{ this.tab.title }}</h1>
       <p class="headline center">Add receipts by clicking the +</p>
     </v-container>
 
@@ -23,20 +23,26 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'HomeScreen',
-  props: {
-    tabTitle: {
-      type: String,
-      required: true
-    }
-  },
+  props: ['id'],
   data () {
     return {
       dialog3: false
     }
   },
-  methods: {}
+  created: function () {
+    this.tab = this.$store.getters.tabById(this.id)
+  },
+  methods: {
+    routeToAddReceiptScreen: function () {
+      this.$router.push({ name: 'AddReceiptScreen', params: { id: this.id } })
+    }
+  },
+  computed: mapGetters([
+    'tabById'
+  ])
 }
 </script>
 

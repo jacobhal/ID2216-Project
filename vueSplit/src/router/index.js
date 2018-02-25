@@ -22,7 +22,7 @@ export default new Router({
       component: AllTabsScreen
     },
     {
-      path: '/home/:tabTitle',
+      path: '/home/:id',
       name: 'HomeScreen',
       component: HomeScreen,
       props: true
@@ -35,7 +35,8 @@ export default new Router({
     {
       path: '/addReceipt/:id',
       name: 'AddReceiptScreen',
-      component: AddReceiptScreen
+      component: AddReceiptScreen,
+      props: true
     },
     {
       path: '/inputAmount',
