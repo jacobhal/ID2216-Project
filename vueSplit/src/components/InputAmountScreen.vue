@@ -11,40 +11,25 @@
       <v-flex xs12>
         <v-card>
           <v-list two-line>
-            <!-- TODO: Iterate over all people added to the recipt and generate list items -->
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>Person's name:</v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-form v-model="validFields[0]">
-                  <v-text-field
-                    v-on="{ blur: validate }"
-                    label="Amount"
-                    full-width
-                    :rules="inputRules"
-                    v-model="amounts[0]"
-                  ></v-text-field>
-                </v-form>
-             </v-list-tile-action>
-            </v-list-tile>
-            <v-divider></v-divider>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>Person's name:</v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-form v-model="validFields[1]">
-                  <v-text-field
-                    v-on="{ blur: validate }"
-                    label="Amount"
-                    full-width
-                    :rules="inputRules"
-                    v-model="amounts[1]"
-                  ></v-text-field>
-                </v-form>
-             </v-list-tile-action>
-            </v-list-tile>
+            <template v-for="(person, index) in persons">
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ person.name }}</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                  <v-form v-model="validFields[index]">
+                    <v-text-field
+                      v-on="{ blur: validate }"
+                      label="Amount"
+                      full-width
+                      :rules="inputRules"
+                      v-model="amounts[index]"
+                    ></v-text-field>
+                  </v-form>
+               </v-list-tile-action>
+              </v-list-tile>
+              <v-divider v-if="index < persons.length-1"></v-divider>
+            </template>
           </v-list>
         </v-card>
       </v-flex>
@@ -65,33 +50,48 @@ export default {
   name: 'InputAmountScreen',
   data () {
     return {
-      amounts: [null, null],
-      validFields: [false, false],
+      tabId: this.$route.params.tabId,
+      persons: [],
+      amounts: [],
+      validFields: [],
       color: 'grey',
-      valid: false,
+      allFieldsValid: false,
       inputRules: [
         () => !!this.amounts[0] || 'This field is required',
         v => /^\d+(\.\d+)?$/.test(v) || 'Field can only contain numbers'
       ]
     }
   },
+  created: function () {
+    // Get people who have been selected for this receipt
+    const peopleIds = this.$route.params.peopleIds.split(',')
+    for (let id of peopleIds) {
+      const person = this.$store.getters.personById(id)
+      this.persons.push(person)
+      // Fill amounts with null since nothing has been inputted yet. Needed for v-model
+      this.amounts.push(null)
+      // Fill validFields with false since all are invalid at first. needed for v-model
+      this.validFields.push(false)
+    }
+    // console.log(this.persons)
+    // console.log(this.amounts)
+    // console.log(this.validFields)
+  },
   methods: {
     // TODO: Submit data properly
     submit: function () {
-      if (this.valid) {
+      if (this.allFieldsValid) {
         // Submit
       } else {
         // handle?
       }
-      console.log(this.amounts)
-      console.log(this.valid)
     },
     isTrue: function (value) {
       return value
     },
     validate: function () {
-      this.valid = this.validFields.every(this.isTrue)
-      if (this.valid) {
+      this.allFieldsValid = this.validFields.every(this.isTrue)
+      if (this.allFieldsValid) {
         this.color = 'red'
       } else {
         this.color = 'grey'

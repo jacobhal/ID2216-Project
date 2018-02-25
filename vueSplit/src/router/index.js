@@ -37,7 +37,7 @@ export default new Router({
       component: AddReceiptScreen
     },
     {
-      path: '/inputAmount',
+      path: '/inputAmount/:tabId/:peopleIds', // :peopleIds are comma separated values of the selected ids e.g. 1,5,6
       name: 'InputAmountScreen',
       component: InputAmountScreen
     }
