@@ -46,7 +46,6 @@
 
 <script>
 export default {
-  // TODO: Take in persons from previous page
   name: 'InputAmountScreen',
   data () {
     return {
@@ -73,17 +72,23 @@ export default {
       // Fill validFields with false since all are invalid at first. needed for v-model
       this.validFields.push(false)
     }
-    // console.log(this.persons)
-    // console.log(this.amounts)
-    // console.log(this.validFields)
   },
   methods: {
-    // TODO: Submit data properly
     submit: function () {
       if (this.allFieldsValid) {
-        // Submit
+        // First we add a new receipt
+        this.addReceipt()
+        // Get ID of the added receipt
+        const tab = this.$store.getters.tabById(this.tabId)
+        const receiptID = this.$store.getters.tabReceipts(tab).slice(-1)[0].id
+        // Add purchases to receipt
+        for (var i = 0; i < this.persons.length; i++) {
+          this.addPurchase(this.persons[i], parseFloat(this.amounts[i]), receiptID)
+        }
+        alert('This has been added to the receipt') // TODO: Handle this nicer with cooler prompt and continue button
+        this.$router.push({ path: `/home` })
       } else {
-        // handle?
+        alert('All fields must be filled in and the must only contain numbers')
       }
     },
     isTrue: function (value) {
@@ -96,6 +101,21 @@ export default {
       } else {
         this.color = 'grey'
       }
+    },
+    addReceipt: function () {
+      this.$store.dispatch('addReceipt', {
+        title: 'NEW TITLE BABY', // TODO: Fix so people can add titles
+        purchases: [],
+        persons: this.persons,
+        tabId: this.tabId
+      })
+    },
+    addPurchase: function (person, price, receiptId) {
+      this.$store.dispatch('addPurchase', {
+        person: person,
+        price: price,
+        receiptId: receiptId
+      })
     }
   }
 }
