@@ -157,7 +157,6 @@ const actions = {
   /**
    * TAB ACTIONS
    */
-  // {id: '1', title: 'TestTab1', receipts: ['1', '2'], persons: ['1', '2', '3'], running: true},
   // This method can be used to observe changes on the activeTab element in the state
   getTab ({commit}, tab) { commit('GET_TAB', tab) },
   // This method takes an object {title: <TITLE>, title: <TITLE>,
@@ -211,6 +210,7 @@ const actions = {
     var addedPurchase = state.purchases[state.purchases.length - 1]
     var receipt = state.receipts.find(receipt => receipt.id === payload.receiptId)
     receipt.purchases.push(addedPurchase.id)
+    receipt.totalPrice += payload.price
     commit('EDIT_RECEIPT', receipt)
   },
   // This method takes an object {id: <ID>, person: <PERSON_ID>, price: <PRICE>, receiptId: <RECEIPT_ID>}

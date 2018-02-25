@@ -22,9 +22,10 @@ export default new Router({
       component: AllTabsScreen
     },
     {
-      path: '/home',
+      path: '/home/:tabTitle',
       name: 'HomeScreen',
-      component: HomeScreen
+      component: HomeScreen,
+      props: true
     },
     {
       path: '/editTab/:id',
