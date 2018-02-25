@@ -14,7 +14,8 @@
               <!-- Add component for one single receipt here -->
               <h3>{{ receipt.title }}</h3>
             </a>
-            <v-btn @click="editReceipt(receipt.id)">Edit</v-btn>
+            <v-btn @click="editReceipt(receipt)">Edit</v-btn>
+            <v-btn @click="deleteReceipt(receipt)">Delete</v-btn>
           </v-flex>
         </v-layout>
       </div>
@@ -50,11 +51,16 @@ export default {
         tabId: this.tabId
       })
     },
-    editReceipt (receiptId) {
+    editReceipt (receipt) {
       this.$store.dispatch('editReceipt', {
         title: 'TEST',
-        id: receiptId
+        purchases: this.purchases,
+        tabId: this.tabId,
+        id: receipt.id
       })
+    },
+    deleteReceipt (receipt) {
+      this.$store.dispatch('deleteReceipt', receipt)
     }
   },
   computed: mapGetters([
