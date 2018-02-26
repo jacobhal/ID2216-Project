@@ -1,11 +1,13 @@
 <template>
   <div>
-    <v-container fluid>
-      <h1 class="display-2 center">{{ this.tab.title }}</h1>
-      <p class="headline center">Add receipts by clicking the +</p>
+    <v-container fluid text-xs-center id="text">
+      <h1 class="display-2">{{ this.tab.title }}</h1>
+      <p class="subheading">
+        Add receipts by clicking the plus button or see receipts on this tab with the list button
+      </p>
     </v-container>
 
-    <v-container grid-list-md text-xs-center push-down>
+    <v-container grid-list-xs text-xs-center push-down>
       <v-layout row wrap>
         <v-flex xs6>
           <v-btn fab dark large color="red">
@@ -48,8 +50,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.center{text-align:center;}
+#text {
+  margin-top: 40%
+}
 .push-down{
-  margin-top: 70%;
+  margin-top: 50%;
 }
 </style>
