@@ -12,7 +12,7 @@
           <v-flex xs12>
             <a @click="">
               <!-- Add component for one single receipt here -->
-              <h3>{{ receipt.title }}</h3>
+              <h3>{{ receipt.title }}, Price: {{ receipt.totalPrice }}</h3>
             </a>
             <v-btn @click="editReceipt(receipt)">Edit</v-btn>
             <v-btn @click="deleteReceipt(receipt)">Delete</v-btn>

@@ -11,31 +11,31 @@ const state = {
   addedPurchaseId: '',
   addedPersonId: '',
   tabs: [
-    {id: '1', title: 'TestTab1', receipts: ['1', '2'], persons: ['1', '2', '3'], running: true},
-    {id: '2', title: 'TestTab2', receipts: ['3', '4'], persons: ['1', '2', '3'], running: false}
+  {id: '1', title: 'TestTab1', receipts: ['1', '2'], persons: ['1', '2', '3'], running: true},
+  {id: '2', title: 'TestTab2', receipts: ['3', '4'], persons: ['1', '2', '3'], running: false}
   ],
   activeTab: {},
   receipts: [
-    {id: '1', title: 'Tentapub', purchases: ['1', '2'], persons: ['1', '2'], totalPrice: 100, tabId: '1'},
-    {id: '2', title: 'Bowling', purchases: ['3', '4'], persons: ['3', '1'], totalPrice: 200, tabId: '1'},
-    {id: '3', title: 'Cypern', purchases: ['5', '6'], persons: ['2', '3'], totalPrice: 300, tabId: '2'},
-    {id: '4', title: 'Kinamuren schleeeeee', purchases: ['7', '8'], persons: ['1', '2'], tabId: '2'}
+  {id: '1', title: 'Tentapub', purchases: ['1', '2'], persons: ['1', '2'], totalPrice: 300, tabId: '1'},
+  {id: '2', title: 'Bowling', purchases: ['3', '4'], persons: ['3', '1'], totalPrice: 401, tabId: '1'},
+  {id: '3', title: 'Cypern', purchases: ['5', '6'], persons: ['2', '3'], totalPrice: 502, tabId: '2'},
+  {id: '4', title: 'Kinamuren schleeeeee', purchases: ['7', '8'], persons: ['1', '2'], totalPrice: 304, tabId: '2'}
   ],
   activeReceipt: {},
   purchases: [
-    {id: '1', person: '1', price: 100, receiptId: '1'},
-    {id: '2', person: '2', price: 200, receiptId: '1'},
-    {id: '3', person: '3', price: 300, receiptId: '2'},
-    {id: '4', person: '1', price: 101, receiptId: '2'},
-    {id: '5', person: '2', price: 201, receiptId: '3'},
-    {id: '6', person: '3', price: 301, receiptId: '3'},
-    {id: '7', person: '1', price: 102, receiptId: '4'},
-    {id: '8', person: '2', price: 202, receiptId: '4'}
+  {id: '1', person: '1', price: 100, receiptId: '1'},
+  {id: '2', person: '2', price: 200, receiptId: '1'},
+  {id: '3', person: '3', price: 300, receiptId: '2'},
+  {id: '4', person: '1', price: 101, receiptId: '2'},
+  {id: '5', person: '2', price: 201, receiptId: '3'},
+  {id: '6', person: '3', price: 301, receiptId: '3'},
+  {id: '7', person: '1', price: 102, receiptId: '4'},
+  {id: '8', person: '2', price: 202, receiptId: '4'}
   ],
   persons: [
-    {id: '1', name: 'Jacob', phoneNumber: '0761337123'},
-    {id: '2', name: 'Nedo', phoneNumber: '0731111222'},
-    {id: '3', name: 'Malte', phoneNumber: '0702222333'}
+  {id: '1', name: 'Jacob', phoneNumber: '0761337123'},
+  {id: '2', name: 'Nedo', phoneNumber: '0731111222'},
+  {id: '3', name: 'Malte', phoneNumber: '0702222333'}
   ]
 }
 
@@ -236,7 +236,19 @@ const actions = {
     }
   },
   // This method takes an object {id: <ID>, person: <PERSON_ID>, price: <PRICE>, receiptId: <RECEIPT_ID>}
-  editPurchase ({commit}, purchase) { commit('EDIT_PURCHASE', purchase) },
+  editPurchase ({commit}, purchase) {
+    commit('EDIT_PURCHASE', purchase)
+    // Update totalPrice for receipt affected
+    var receipt = state.receipts.find(receipt => receipt.id === purchase.receiptId)
+    if (receipt !== undefined) {
+      var totalPrice = 0
+      var purchases = state.purchases.filter(purchase => receipt.purchases.includes(purchase.id))
+      for (var i = purchases.length - 1; i >= 0; i--) {
+        totalPrice += purchases[i].price
+      }
+      receipt.totalPrice = totalPrice
+    }
+  },
   /**
    * PERSON ACTIONS
    */
