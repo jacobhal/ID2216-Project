@@ -1,6 +1,6 @@
 <template>
   <v-container align-center>
-    <v-toolbar app>
+    <v-toolbar app flat>
       <v-btn icon @click="goBack">
         <v-icon>fa-angle-left</v-icon>
     </v-btn>
@@ -17,7 +17,7 @@
           <v-list>
             <!-- Add new person list item -->
             <!-- TODO: @click route to add person screen -->
-            <v-list-tile avatar>
+            <v-list-tile avatar @click="routeToAddPersonScreen">
              <v-list-tile-content>
                <v-list-tile-title>Add New Person</v-list-tile-title>
              </v-list-tile-content>
@@ -77,6 +77,9 @@ export default {
   methods: {
     goBack: function () {
       this.$router.back()
+    },
+    routeToAddPersonScreen: function () {
+      this.$router.push({ name: 'AddPersonScreen', params: { id: this.tabId } })
     },
     goToInput: function () {
       var params = ''

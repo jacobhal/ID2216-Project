@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar app>
+    <v-toolbar app flat>
       <v-btn icon @click="goBack">
         <v-icon>fa-angle-left</v-icon>
     </v-btn>
