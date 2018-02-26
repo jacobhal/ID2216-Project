@@ -10,12 +10,12 @@
     <v-container grid-list-xs text-xs-center push-down>
       <v-layout row wrap>
         <v-flex xs6>
-          <v-btn fab dark large color="red">
+          <v-btn @click="routeToEditTabScreen"  fab dark large color="red">
             <v-icon dark>list</v-icon>
           </v-btn>
         </v-flex>
         <v-flex xs6>
-          <v-btn fab large dark color="red" >
+          <v-btn @click="routeToAddReceiptScreen" fab large dark color="red" >
             <v-icon dark >add</v-icon>
           </v-btn>
         </v-flex>
@@ -40,6 +40,9 @@ export default {
   methods: {
     routeToAddReceiptScreen: function () {
       this.$router.push({ name: 'AddReceiptScreen', params: { id: this.id } })
+    },
+    routeToEditTabScreen: function () {
+      this.$router.push({ name: 'EditTabScreen', params: { id: this.id } })
     }
   },
   computed: mapGetters([
