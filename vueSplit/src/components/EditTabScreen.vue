@@ -12,7 +12,7 @@
           <v-flex xs12>
             <a @click="">
               <!-- Add component for one single receipt here -->
-              <h3>{{ receipt.title }}</h3>
+              <h3>{{ receipt.title }}, Price: {{ receipt.totalPrice }}</h3>
             </a>
             <v-btn @click="editReceipt(receipt)">Edit</v-btn>
             <v-btn @click="deleteReceipt(receipt)">Delete</v-btn>
@@ -45,7 +45,7 @@ export default {
     goBack: function () {
       this.$router.back()
     },
-    addReceipt () {
+    addReceipt: function () {
       this.$store.dispatch('addReceipt', {
         title: this.receiptTitle,
         purchases: this.purchases,
@@ -53,15 +53,16 @@ export default {
         tabId: this.tabId
       })
     },
-    editReceipt (receipt) {
+    editReceipt: function (receipt) {
       this.$store.dispatch('editReceipt', {
+        id: receipt.id,
         title: 'TEST',
         purchases: this.purchases,
-        tabId: this.tabId,
-        id: receipt.id
+        totalPrice: receipt.totalPrice,
+        tabId: this.tabId
       })
     },
-    deleteReceipt (receipt) {
+    deleteReceipt: function (receipt) {
       this.$store.dispatch('deleteReceipt', receipt)
     }
   },

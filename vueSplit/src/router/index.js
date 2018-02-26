@@ -22,9 +22,10 @@ export default new Router({
       component: AllTabsScreen
     },
     {
-      path: '/home',
+      path: '/home/:id',
       name: 'HomeScreen',
-      component: HomeScreen
+      component: HomeScreen,
+      props: true
     },
     {
       path: '/editTab/:id',
@@ -34,7 +35,8 @@ export default new Router({
     {
       path: '/addReceipt/:id',
       name: 'AddReceiptScreen',
-      component: AddReceiptScreen
+      component: AddReceiptScreen,
+      props: true
     },
     {
       path: '/inputAmount/:tabId/:peopleIds', // :peopleIds are comma separated values of the selected ids e.g. 1,5,6
