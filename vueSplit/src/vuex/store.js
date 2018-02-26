@@ -4,41 +4,6 @@ import uuidv4 from 'uuid/v4'
 
 Vue.use(Vuex)
 
-// The State Tree: an object that contains all the application level state
-const state = {
-  addedTabId: '',
-  addedReceiptId: '',
-  addedPurchaseId: '',
-  addedPersonId: '',
-  tabs: [
-  {id: '1', title: 'TestTab1', receipts: ['1', '2'], persons: ['1', '2', '3'], running: true},
-  {id: '2', title: 'TestTab2', receipts: ['3', '4'], persons: ['1', '2', '3'], running: false}
-  ],
-  activeTab: {},
-  receipts: [
-  {id: '1', title: 'Tentapub', purchases: ['1', '2'], persons: ['1', '2'], totalPrice: 300, tabId: '1'},
-  {id: '2', title: 'Bowling', purchases: ['3', '4'], persons: ['3', '1'], totalPrice: 401, tabId: '1'},
-  {id: '3', title: 'Cypern', purchases: ['5', '6'], persons: ['2', '3'], totalPrice: 502, tabId: '2'},
-  {id: '4', title: 'Kinamuren schleeeeee', purchases: ['7', '8'], persons: ['1', '2'], totalPrice: 304, tabId: '2'}
-  ],
-  activeReceipt: {},
-  purchases: [
-  {id: '1', person: '1', price: 100, receiptId: '1'},
-  {id: '2', person: '2', price: 200, receiptId: '1'},
-  {id: '3', person: '3', price: 300, receiptId: '2'},
-  {id: '4', person: '1', price: 101, receiptId: '2'},
-  {id: '5', person: '2', price: 201, receiptId: '3'},
-  {id: '6', person: '3', price: 301, receiptId: '3'},
-  {id: '7', person: '1', price: 102, receiptId: '4'},
-  {id: '8', person: '2', price: 202, receiptId: '4'}
-  ],
-  persons: [
-  {id: '1', name: 'Jacob', phoneNumber: '0761337123'},
-  {id: '2', name: 'Nedo', phoneNumber: '0731111222'},
-  {id: '3', name: 'Malte', phoneNumber: '0702222333'}
-  ]
-}
-
 // Mutators: event handlers that manipulate the state SYNCHRONOUSLY
 const mutations = {
   GET_TAB (state, tab) {
@@ -75,6 +40,9 @@ const mutations = {
     }
     Vue.set(state, 'addedReceiptId', id)
     state.receipts.push(newReceipt)
+    // Add relations for the new receipt
+    var tab = state.tabs.find(tab => tab.id === payload.tabId)
+    tab.receipts.push(id)
   },
   ADD_PURCHASE (state, payload) {
     var id = uuidv4()
@@ -86,6 +54,10 @@ const mutations = {
     }
     Vue.set(state, 'addedPurchaseId', id)
     state.purchases.push(newPurchase)
+    // Add relations for the new purchase
+    var receipt = state.receipts.find(receipt => receipt.id === payload.receiptId)
+    receipt.purchases.push(id)
+    receipt.totalPrice += payload.price
   },
   ADD_PERSON (state, payload) {
     var id = uuidv4()
@@ -104,10 +76,22 @@ const mutations = {
   DELETE_RECEIPT (state, receipt) {
     var receipts = state.receipts
     receipts.splice(receipts.indexOf(receipt), 1)
+    // Update receipt relations
+    var tab = state.tabs.find(tab => tab.id === receipt.tabId)
+    if (tab !== undefined) {
+      var receiptIndex = tab.receipts.indexOf(receipt.id)
+      tab.receipts.splice(receiptIndex, 1)
+    }
   },
   DELETE_PURCHASE (state, purchase) {
     var purchases = state.purchases
     purchases.splice(purchases.indexOf(purchase), 1)
+    // Update purchase relations
+    var receipt = state.receipts.find(receipt => receipt.id === purchase.receiptId)
+    if (receipt !== undefined) {
+      var purchaseIndex = receipt.purchases.indexOf(purchase.id)
+      receipt.purchases.splice(purchaseIndex, 1)
+    }
   },
   DELETE_PERSON (state, person) {
     var persons = state.persons
@@ -124,6 +108,16 @@ const mutations = {
   EDIT_PURCHASE (state, purchase) {
     var index = state.purchases.findIndex(currentPurchase => currentPurchase.id === purchase.id)
     state.purchases.splice(index, 1, purchase)
+     // Update totalPrice for receipt affected
+    var receipt = state.receipts.find(receipt => receipt.id === purchase.receiptId)
+    if (receipt !== undefined) {
+      var totalPrice = 0
+      var purchases = state.purchases.filter(purchase => receipt.purchases.includes(purchase.id))
+      for (var i = purchases.length - 1; i >= 0; i--) {
+        totalPrice += purchases[i].price
+      }
+      receipt.totalPrice = totalPrice
+    }
   },
   EDIT_PERSON (state, person) {
     var index = state.persons.findIndex(currentPerson => currentPerson.id === person.id)
@@ -164,6 +158,41 @@ const mutations = {
   }
 }
 
+// The State Tree: an object that contains all the application level state
+const state = {
+  addedTabId: '',
+  addedReceiptId: '',
+  addedPurchaseId: '',
+  addedPersonId: '',
+  tabs: [
+  {id: '1', title: 'TestTab1', receipts: ['1', '2'], persons: ['1', '2', '3'], running: true},
+  {id: '2', title: 'TestTab2', receipts: ['3', '4'], persons: ['1', '2', '3'], running: false}
+  ],
+  activeTab: {},
+  receipts: [
+  {id: '1', title: 'Tentapub', purchases: ['1', '2'], persons: ['1', '2'], totalPrice: 300, tabId: '1'},
+  {id: '2', title: 'Bowling', purchases: ['3', '4'], persons: ['3', '1'], totalPrice: 401, tabId: '1'},
+  {id: '3', title: 'Cypern', purchases: ['5', '6'], persons: ['2', '3'], totalPrice: 502, tabId: '2'},
+  {id: '4', title: 'Kinamuren schleeeeee', purchases: ['7', '8'], persons: ['1', '2'], totalPrice: 304, tabId: '2'}
+  ],
+  activeReceipt: {},
+  purchases: [
+  {id: '1', person: '1', price: 100, receiptId: '1'},
+  {id: '2', person: '2', price: 200, receiptId: '1'},
+  {id: '3', person: '3', price: 300, receiptId: '2'},
+  {id: '4', person: '1', price: 101, receiptId: '2'},
+  {id: '5', person: '2', price: 201, receiptId: '3'},
+  {id: '6', person: '3', price: 301, receiptId: '3'},
+  {id: '7', person: '1', price: 102, receiptId: '4'},
+  {id: '8', person: '2', price: 202, receiptId: '4'}
+  ],
+  persons: [
+  {id: '1', name: 'Jacob', phoneNumber: '0761337123'},
+  {id: '2', name: 'Nedo', phoneNumber: '0731111222'},
+  {id: '3', name: 'Malte', phoneNumber: '0702222333'}
+  ]
+}
+
 // Actions: event handlers that manipulate the state ASYNCHRONOUSLY
 const actions = {
   /**
@@ -190,25 +219,11 @@ const actions = {
   getReceipt ({commit}, tab) { commit('GET_RECEIPT', tab) },
   // This method takes an object {title: <TITLE>, purchases: <PURCHASE_ID_ARRAY>,
   // persons: <PERSON_ID_ARRAY>, totalPrice: <TOTALPRICE>, tabId: <TAB_ID>}
-  addReceipt ({commit}, payload) {
-    commit('ADD_RECEIPT', payload)
-    // We need to update the relations for the new receipt
-    var addedReceipt = state.receipts[state.receipts.length - 1]
-    var tab = state.tabs.find(tab => tab.id === payload.tabId)
-    tab.receipts.push(addedReceipt.id)
-    commit('EDIT_TAB', tab)
-  },
+  addReceipt ({commit}, payload) { commit('ADD_RECEIPT', payload) },
   // This method takes an object {id: <ID>, title: <TITLE>, purchases: <PURCHASE_ID_ARRAY>,
   // persons: <PERSON_ID_ARRAY>, totalPrice: <TOTALPRICE>, tabId: <TAB_ID>}
   // OBS: Has to be an exact match for the object to be deleted
-  deleteReceipt ({commit}, receipt) {
-    commit('DELETE_RECEIPT', receipt)
-    var tab = state.tabs.find(tab => tab.id === receipt.tabId)
-    if (tab !== undefined) {
-      var receiptIndex = tab.receipts.indexOf(receipt.id)
-      tab.receipts.splice(receiptIndex, 1)
-    }
-  },
+  deleteReceipt ({commit}, receipt) { commit('DELETE_RECEIPT', receipt) },
   // This method takes an object {id: <ID>, title: <TITLE>, purchases: <PURCHASE_ID_ARRAY>,
   // persons: <PERSON_ID_ARRAY>, totalPrice: <TOTALPRICE>, tabId: <TAB_ID>}
   editReceipt ({commit}, receipt) { commit('EDIT_RECEIPT', receipt) },
@@ -216,39 +231,12 @@ const actions = {
    * PURCHASE ACTIONS
    */
   // This method takes an object {person: <PERSON_ID>, price: <PRICE>, receiptId: <RECEIPT_ID>}
-  addPurchase ({commit}, payload) {
-    commit('ADD_PURCHASE', payload)
-    // We need to update the relations for the new purchase
-    var addedPurchase = state.purchases[state.purchases.length - 1]
-    var receipt = state.receipts.find(receipt => receipt.id === payload.receiptId)
-    receipt.purchases.push(addedPurchase.id)
-    receipt.totalPrice += payload.price
-    commit('EDIT_RECEIPT', receipt)
-  },
+  addPurchase ({commit}, payload) { commit('ADD_PURCHASE', payload) },
   // This method takes an object {id: <ID>, person: <PERSON_ID>, price: <PRICE>, receiptId: <RECEIPT_ID>}
   // OBS: Has to be an exact match for the object to be deleted
-  deletePurchase ({commit}, purchase) {
-    commit('DELETE_PURCHASE', purchase)
-    var receipt = state.receipts.find(receipt => receipt.id === purchase.receiptId)
-    if (receipt !== undefined) {
-      var purchaseIndex = receipt.purchases.indexOf(purchase.id)
-      receipt.purchases.splice(purchaseIndex, 1)
-    }
-  },
+  deletePurchase ({commit}, purchase) { commit('DELETE_PURCHASE', purchase) },
   // This method takes an object {id: <ID>, person: <PERSON_ID>, price: <PRICE>, receiptId: <RECEIPT_ID>}
-  editPurchase ({commit}, purchase) {
-    commit('EDIT_PURCHASE', purchase)
-    // Update totalPrice for receipt affected
-    var receipt = state.receipts.find(receipt => receipt.id === purchase.receiptId)
-    if (receipt !== undefined) {
-      var totalPrice = 0
-      var purchases = state.purchases.filter(purchase => receipt.purchases.includes(purchase.id))
-      for (var i = purchases.length - 1; i >= 0; i--) {
-        totalPrice += purchases[i].price
-      }
-      receipt.totalPrice = totalPrice
-    }
-  },
+  editPurchase ({commit}, purchase) { commit('EDIT_PURCHASE', purchase) },
   /**
    * PERSON ACTIONS
    */
@@ -283,13 +271,9 @@ const getters = {
   // Get all awaiting payment tabs
   awaitingPaymentTabs: state => { return state.tabs.filter(tab => !tab.running) },
   // Get all receipts of this tab
-  tabReceipts: (state) => (tab) => {
-    return tab.receipts.map(receiptId => state.receipts.find(receipt => receipt.id === receiptId))
-  },
+  tabReceipts: (state) => (tab) => { return tab.receipts.map(receiptId => state.receipts.find(receipt => receipt.id === receiptId)) },
   // Get all persons of this tab
-  tabPersons: (state) => (tab) => {
-    return tab.persons.map(personId => state.persons.find(person => person.id === personId))
-  },
+  tabPersons: (state) => (tab) => { return tab.persons.map(personId => state.persons.find(person => person.id === personId)) },
   /**
    * RECEIPT GETTERS
    */
@@ -298,13 +282,9 @@ const getters = {
   // Get a receipt by id
   receiptById: (state) => (id) => { return state.receipts.find(receipt => receipt.id === id) },
   // Get all purchases of this receipt
-  receiptPurchases: (state) => (receipt) => {
-    return receipt.purchases.map(purchaseId => state.purchases.find(purchase => purchase.id === purchaseId))
-  },
+  receiptPurchases: (state) => (receipt) => { return receipt.purchases.map(purchaseId => state.purchases.find(purchase => purchase.id === purchaseId)) },
   // Get all persons of this receipt
-  receiptPersons: (state) => (receipt) => {
-    return receipt.persons.map(personId => state.persons.find(person => person.id === personId))
-  },
+  receiptPersons: (state) => (receipt) => { return receipt.persons.map(personId => state.persons.find(person => person.id === personId)) },
   // Get the tab that this receipt is associated with
   receiptTab: (state) => (receipt) => { return state.tabs.find(tab => tab.id === receipt.tabId) },
   /**
@@ -315,13 +295,9 @@ const getters = {
   // Get a purchase by id
   purchaseById: (state) => (id) => { return state.purchases.find(purchase => purchase.id === id) },
   // Get the person that this purchase is associated with
-  purchasePerson: (state) => (purchase) => {
-    return purchase.persons.map(personId => state.persons.find(person => person.id === personId))
-  },
+  purchasePerson: (state) => (purchase) => { return purchase.persons.map(personId => state.persons.find(person => person.id === personId)) },
   // Get the receipt that this purchase is associated with
-  purchaseReceipt: state => (purchase) => {
-    return state.receipts.find(receipt => receipt.id === purchase.receiptId)
-  },
+  purchaseReceipt: state => (purchase) => { return state.receipts.find(receipt => receipt.id === purchase.receiptId) },
   /**
    * PERSON GETTERS
    */

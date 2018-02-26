@@ -55,10 +55,11 @@ export default {
     },
     editReceipt: function (receipt) {
       this.$store.dispatch('editReceipt', {
+        id: receipt.id,
         title: 'TEST',
         purchases: this.purchases,
-        tabId: this.tabId,
-        id: receipt.id
+        totalPrice: receipt.totalPrice,
+        tabId: this.tabId
       })
     },
     deleteReceipt: function (receipt) {
