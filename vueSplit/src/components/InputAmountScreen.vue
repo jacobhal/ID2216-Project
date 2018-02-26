@@ -1,5 +1,6 @@
 <template>
-  <v-container>
+  <div>
+  <v-container v-if="!successfullyAdded">
     <v-layout row>
       <v-flex xs12>
         <h1 class="display-3 text-xs-center">Amount</h1>
@@ -11,91 +12,122 @@
       <v-flex xs12>
         <v-card>
           <v-list two-line>
-            <!-- TODO: Iterate over all people added to the recipt and generate list items -->
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>Person's name:</v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-form v-model="validFields[0]">
-                  <v-text-field
-                    v-on="{ blur: validate }"
-                    label="Amount"
-                    full-width
-                    :rules="inputRules"
-                    v-model="amounts[0]"
-                  ></v-text-field>
-                </v-form>
-             </v-list-tile-action>
-            </v-list-tile>
-            <v-divider></v-divider>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>Person's name:</v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-form v-model="validFields[1]">
-                  <v-text-field
-                    v-on="{ blur: validate }"
-                    label="Amount"
-                    full-width
-                    :rules="inputRules"
-                    v-model="amounts[1]"
-                  ></v-text-field>
-                </v-form>
-             </v-list-tile-action>
-            </v-list-tile>
+            <template v-for="(person, index) in persons">
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>{{ person.name }}</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                  <v-form v-model="validFields[index]">
+                    <v-text-field
+                      v-on="{ blur: validate }"
+                      label="Amount"
+                      full-width
+                      :rules="inputRules"
+                      v-model="amounts[index]"
+                    ></v-text-field>
+                  </v-form>
+               </v-list-tile-action>
+              </v-list-tile>
+              <v-divider v-if="index < persons.length-1"></v-divider>
+            </template>
           </v-list>
         </v-card>
       </v-flex>
     </v-layout>
     <!-- Submit button, only red when all input fields are valid -->
     <v-layout row align-content-center justify-center>
-      <v-btn id="submitButton" v-bind:color="color" large fab dark @click="submit">
+      <v-btn class="submitContainer" v-bind:color="color" large fab dark @click="submit">
         <v-icon>check</v-icon>
       </v-btn>
     </v-layout>
   </v-container>
+  <v-container v-if="successfullyAdded" class="text-xs-center">
+    <v-icon size="30vw" transition="fade-transition" color="green">check_circle</v-icon>
+    <p class="display-1" transition="fade-transition">Receipt successfully added!</p>
+    <v-btn @click="routeToHome" dark color="green">Continue
+      <v-icon right>navigate_next</v-icon>
+    </v-btn>
+  </v-container>
+</div>
 </template>
 
 
 <script>
 export default {
-  // TODO: Take in persons from previous page
   name: 'InputAmountScreen',
   data () {
     return {
-      amounts: [null, null],
-      validFields: [false, false],
+      tabId: this.$route.params.tabId,
+      persons: [],
+      amounts: [],
+      validFields: [],
       color: 'grey',
-      valid: false,
+      allFieldsValid: false,
       inputRules: [
         () => !!this.amounts[0] || 'This field is required',
         v => /^\d+(\.\d+)?$/.test(v) || 'Field can only contain numbers'
-      ]
+      ],
+      successfullyAdded: false
+    }
+  },
+  created: function () {
+    // Get people who have been selected for this receipt
+    const peopleIds = this.$route.params.peopleIds.split(',')
+    for (let id of peopleIds) {
+      const person = this.$store.getters.personById(id)
+      this.persons.push(person)
+      // Fill amounts with null since nothing has been inputted yet. Needed for v-model
+      this.amounts.push(null)
+      // Fill validFields with false since all are invalid at first. needed for v-model
+      this.validFields.push(false)
     }
   },
   methods: {
-    // TODO: Submit data properly
     submit: function () {
-      if (this.valid) {
-        // Submit
+      if (this.allFieldsValid) {
+        // First we add a new receipt
+        this.addReceipt()
+        // Get ID of the added receipt
+        const tab = this.$store.getters.tabById(this.tabId)
+        const receiptID = this.$store.getters.tabReceipts(tab).slice(-1)[0].id
+        // Add purchases to receipt
+        for (var i = 0; i < this.persons.length; i++) {
+          this.addPurchase(this.persons[i], parseFloat(this.amounts[i]), receiptID)
+        }
+        this.successfullyAdded = true
       } else {
-        // handle?
+        alert('All fields must be filled in and the must only contain numbers')
       }
-      console.log(this.amounts)
-      console.log(this.valid)
     },
     isTrue: function (value) {
       return value
     },
+    routeToHome: function () {
+      this.$router.push({ path: `/home` })
+    },
     validate: function () {
-      this.valid = this.validFields.every(this.isTrue)
-      if (this.valid) {
+      this.allFieldsValid = this.validFields.every(this.isTrue)
+      if (this.allFieldsValid) {
         this.color = 'red'
       } else {
         this.color = 'grey'
       }
+    },
+    addReceipt: function () {
+      this.$store.dispatch('addReceipt', {
+        title: 'NEW TITLE BABY', // TODO: Fix so people can add titles
+        purchases: [],
+        persons: this.persons,
+        tabId: this.tabId
+      })
+    },
+    addPurchase: function (person, price, receiptId) {
+      this.$store.dispatch('addPurchase', {
+        person: person,
+        price: price,
+        receiptId: receiptId
+      })
     }
   }
 }
@@ -104,7 +136,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#submitButton {
+.submitContainer {
   margin-top: 10%
 }
 </style>

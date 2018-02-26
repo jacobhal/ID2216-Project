@@ -42,7 +42,7 @@
     <!-- TODO: @click Navigate to InputAmountScreen and send selected people as params.
       Check that atleast one person was selected. -->
     <v-layout row align-content-center justify-center>
-      <v-btn id="nextButton" color="red" large fab dark>
+      <v-btn @click="goToInput" id="nextButton" color="red" large fab dark>
         <v-icon>navigate_next</v-icon>
       </v-btn>
     </v-layout>
@@ -69,6 +69,24 @@ export default {
     }
   },
   methods: {
+    goToInput: function () {
+      var params = ''
+      for (var i = 0; i < this.peopleSelected.length; i++) {
+        if (this.peopleSelected[i].selected) {
+          if (params === '') {
+            params += this.peopleSelected[i].id
+          } else {
+            params += ','
+            params += this.peopleSelected[i].id
+          }
+        }
+      }
+      if (params === '') {
+        alert('You must select atleast one person') // TODO: handle this better
+      } else {
+        this.$router.push({ path: `/inputAmount/${this.tabId}/${params}` })
+      }
+    }
   }
 }
 </script>

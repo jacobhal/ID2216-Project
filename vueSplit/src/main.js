@@ -22,6 +22,7 @@ import {
   VCheckbox,
   VTextField,
   VForm,
+  VAlert,
   VDialog,
   transitions
 } from 'vuetify'
@@ -45,6 +46,7 @@ Vue.use(Vuetify, {
     VCheckbox,
     VTextField,
     VForm,
+    VAlert,
     VDialog,
     transitions
   }
