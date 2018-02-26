@@ -9,11 +9,36 @@
     <v-layout row>
       <v-flex xs12>
         <h1 class="display-3 text-xs-center">Amount</h1>
-        <p class="subheading text-xs-center">Please input the <b>total</b>
-          amount each person paid in this receipt</p>
+        <p class="subheading text-xs-center">
+          Please input the title of the receipt and the <b>total</b>
+          amount each person paid</p>
       </v-flex>
     </v-layout>
     <v-layout row align-center>
+      <v-flex xs12>
+        <v-card>
+          <v-list>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>Title of receipt</v-list-tile-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-form v-model="validTitle">
+                  <v-text-field
+                    v-on="{ blur: validate }"
+                    label="Title"
+                    full-width
+                    :rules="titleRules"
+                    v-model="receiptTitle"
+                  ></v-text-field>
+                </v-form>
+             </v-list-tile-action>
+            </v-list-tile>
+          </v-list>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-layout id="secondCard" row align-center>
       <v-flex xs12>
         <v-card>
           <v-list two-line>
@@ -64,14 +89,19 @@ export default {
   data () {
     return {
       tabId: this.$route.params.tabId,
-      persons: [],
-      amounts: [],
-      validFields: [],
+      persons: [], // IDs of people on this receipt
+      amounts: [], // Inputted amount, tied to form
+      validFields: [], // boolean for if input field is valid
+      validTitle: false,
       color: 'grey',
       allFieldsValid: false,
+      receiptTitle: '',
       inputRules: [
         () => !!this.amounts[0] || 'This field is required',
         v => /^\d+(\.\d+)?$/.test(v) || 'Field can only contain numbers'
+      ],
+      titleRules: [
+        () => this.receiptTitle.length > 0 || 'Must have a title, e.g. "Dinner before movie"'
       ],
       successfullyAdded: false
     }
@@ -93,7 +123,7 @@ export default {
       this.$router.back()
     },
     submit: function () {
-      if (this.allFieldsValid) {
+      if (this.allFieldsValid && this.validTitle) {
         // First we add a new receipt
         this.addReceipt()
         // Get ID of the added receipt
@@ -105,7 +135,7 @@ export default {
         }
         this.successfullyAdded = true
       } else {
-        alert('All fields must be filled in and the must only contain numbers')
+        alert('All fields must be filled in')
       }
     },
     isTrue: function (value) {
@@ -116,7 +146,7 @@ export default {
     },
     validate: function () {
       this.allFieldsValid = this.validFields.every(this.isTrue)
-      if (this.allFieldsValid) {
+      if (this.allFieldsValid && this.validTitle) {
         this.color = 'red'
       } else {
         this.color = 'grey'
@@ -124,7 +154,7 @@ export default {
     },
     addReceipt: function () {
       this.$store.dispatch('addReceipt', {
-        title: 'NEW TITLE BABY', // TODO: Fix so people can add titles
+        title: this.receiptTitle,
         purchases: [],
         persons: this.persons,
         tabId: this.tabId
@@ -145,6 +175,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .submitContainer {
+  margin-top: 10%
+}
+#secondCard {
   margin-top: 10%
 }
 </style>
