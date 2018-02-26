@@ -3,7 +3,7 @@
     <v-toolbar app>
       <v-btn icon @click="goBack">
         <v-icon>fa-angle-left</v-icon>
-    </v-btn>
+      </v-btn>
     </v-toolbar>
     <v-container grid-list-md text-xs-center>
       <h1 class="display-2">Edit Tab: {{ this.tab.title }}</h1>
@@ -40,6 +40,7 @@ export default {
   },
   created: function () {
     this.tab = this.$store.getters.tabById(this.$route.params.id)
+    this.test()
   },
   methods: {
     goBack: function () {
@@ -64,10 +65,39 @@ export default {
     },
     deleteReceipt: function (receipt) {
       this.$store.dispatch('deleteReceipt', receipt)
+    },
+    // TODO: Remove the 3 functions below later
+    addPerson: function () {
+      this.$store.dispatch('addPerson', {
+        name: 'Henry',
+        phoneNumber: '123'
+      })
+    },
+    addPersonToTab: function (pId) {
+      this.$store.dispatch('addPersonToTab', {
+        tabId: this.tabId,
+        personId: pId
+      })
+    },
+    test: function () {
+      var tab = this.tabById(this.tabId)
+      console.log('LOGGING TAB')
+      console.log(tab) // This prints out the tab object
+      this.addPerson()
+      var person = this.personById(this.$store.state.addedPersonId)
+      console.log('LOGGING PERSON')
+      console.log(person) // This prints out the person object added to store
+      this.addPersonToTab(this.$store.state.addedPersonId)
+      tab = this.tabById(this.tabId)
+      console.log('LOGGING TAB AGAIN')
+      console.log(tab) // Prints out undefined
+      console.log(this.$store.state.addedPersonId) // Prints out the id of the person added to the store (not tab).
     }
   },
   computed: mapGetters([
-    'tabReceipts'
+    'tabReceipts',
+    'tabById',
+    'personById'
   ])
 }
 </script>
