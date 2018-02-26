@@ -1,6 +1,11 @@
 <template>
   <div>
   <v-container v-if="!successfullyAdded">
+    <v-toolbar app>
+      <v-btn icon @click="goBack">
+        <v-icon>fa-angle-left</v-icon>
+    </v-btn>
+    </v-toolbar>
     <v-layout row>
       <v-flex xs12>
         <h1 class="display-3 text-xs-center">Amount</h1>
@@ -84,6 +89,9 @@ export default {
     }
   },
   methods: {
+    goBack: function () {
+      this.$router.back()
+    },
     submit: function () {
       if (this.allFieldsValid) {
         // First we add a new receipt

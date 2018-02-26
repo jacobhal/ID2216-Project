@@ -1,5 +1,10 @@
 <template>
   <v-container align-center>
+    <v-toolbar app>
+      <v-btn icon @click="goBack">
+        <v-icon>fa-angle-left</v-icon>
+    </v-btn>
+    </v-toolbar>
     <v-layout row>
       <v-flex xs12>
         <h1 class="display-3 text-xs-center">Add Receipt</h1>
@@ -23,6 +28,7 @@
           </v-list>
           <v-divider></v-divider>
           <!-- Recent people list items -->
+          <!-- TODO: Handle case where no people are on the tab yet, thid causes errors -->
           <v-list subheader>
             <v-subheader>Already on this tab</v-subheader>
             <template v-for="(person, index) in persons">
@@ -69,6 +75,9 @@ export default {
     }
   },
   methods: {
+    goBack: function () {
+      this.$router.back()
+    },
     goToInput: function () {
       var params = ''
       for (var i = 0; i < this.peopleSelected.length; i++) {
