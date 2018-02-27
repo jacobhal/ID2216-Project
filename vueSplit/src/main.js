@@ -28,6 +28,7 @@ import {
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
+require('./assets/styles.css')
 
 Vue.use(Vuetify, {
   components: {

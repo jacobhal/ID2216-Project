@@ -1,0 +1,19 @@
+/* General styling */
+.center-text {
+  text-align: center !important;
+  margin: 0 auto;
+}
+
+.high-priority {
+  z-index: 10000;
+}
+
+/* HTML components styling */
+.subheading {
+  font-size: 20px !important;
+  color: gray;
+}
+
+.tabCard {
+  padding-bottom: 15px;
+}

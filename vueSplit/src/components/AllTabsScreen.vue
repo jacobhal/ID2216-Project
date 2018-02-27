@@ -6,19 +6,20 @@
       </v-btn>
     </v-toolbar>
     <v-container grid-list-md text-xs-center>
-      <h1 class="display-2">All Tabs</h1>
-      <div v-for="tab in tabs" :key="tab.id">
-        <v-layout row wrap>
-          <v-flex v-if="matchesCurrentStatus(tab.running)" xs12>
+      <h1 class="display-2">Tabs</h1>
+      <h2 class="subheading">{{ e1 }}</h2>
+      <v-layout row wrap align-center v-for="tab in tabs" :key="tab.id">
+        <v-flex v-if="matchesCurrentStatus(tab.running)" xs12>
+          <v-card class="tabCard">
             <!-- Add component for one single tab here -->
-            <a @click="routeToEditTabScreen(tab.id)">
-              <h3>{{ tab.title }}</h3>
-            </a>
-            <v-btn @click="deleteTab(tab)">Delete</v-btn>
-            <v-btn @click="toggleTab(tab)">Toggle status</v-btn>
-          </v-flex>
-        </v-layout>
-      </div>
+            <v-card-title>
+              <a class="center-text" @click="routeToEditTabScreen(tab.id)">{{ tab.title }}</a>
+            </v-card-title>
+            <v-btn class="high-priority" @click="deleteTab(tab)">Delete</v-btn>
+            <v-btn class="high-priority" @click="toggleTab(tab)">Toggle status</v-btn>
+          </v-card>
+        </v-flex>
+      </v-layout>
     </v-container>
     <v-bottom-nav 
     absolute 
@@ -28,11 +29,11 @@
     full-width
     id="bottom-nav"
     >
-    <v-btn flat color="red darken-2" value="running">
+    <v-btn flat color="red darken-2" value="Running">
       <span>Running</span>
       <v-icon>lock_open</v-icon>
     </v-btn>
-    <v-btn flat color="red darken-2" value="awaiting_payment">
+    <v-btn flat color="red darken-2" value="Awaiting payment">
       <span>Awaiting payment</span>
       <v-icon>lock_outline</v-icon>
     </v-btn>
@@ -46,7 +47,7 @@ export default {
   name: 'AllTabsSceen',
   data () {
     return {
-      e1: 'running',
+      e1: 'Running',
       tabTitle: '',
       persons: ['1', '2', '3'],
       receipts: ['2', '3', '4']
@@ -72,9 +73,9 @@ export default {
     matchesCurrentStatus: function (tabStatus) {
       var status = ''
       if (tabStatus) {
-        status = 'running'
+        status = 'Running'
       } else {
-        status = 'awaiting_payment'
+        status = 'Awaiting payment'
       }
       if (this.e1 === status) {
         return true
