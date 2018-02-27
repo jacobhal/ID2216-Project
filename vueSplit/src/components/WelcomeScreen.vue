@@ -73,7 +73,7 @@ export default {
     },
     createNewTabAndRouteToHomeScreen: function () {
       this.addTab()
-      var tabId = this.$store.state.tabs[this.$store.state.tabs.length - 1].id
+      var tabId = this.$store.state.addedTabId
       this.$router.push({ name: 'HomeScreen', params: { id: tabId } })
     },
     startTimer () {

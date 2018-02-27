@@ -24,6 +24,7 @@ import {
   VForm,
   VAlert,
   VDialog,
+  VBottomNav,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -48,6 +49,7 @@ Vue.use(Vuetify, {
     VForm,
     VAlert,
     VDialog,
+    VBottomNav,
     transitions
   }
 })
