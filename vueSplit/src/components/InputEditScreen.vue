@@ -28,7 +28,7 @@
                       label="Amount"
                       full-width
                       append-icon="delete"
-                      :value="getPurchaseOfPerson(person.id).price"
+                      v-bind:value="getPurchaseOfPerson(index)"
                       :rules="inputRules"
                       v-model="amounts[index]"
                     ></v-text-field>
@@ -42,7 +42,7 @@
       </v-flex>
     </v-layout>
     <v-layout row align-content-center justify-center>
-      <v-btn class="submitContainer" color="red" large fab dark @click="">
+      <v-btn class="submitContainer" color="red" large fab dark @click="submit">
         <v-icon>check</v-icon>
       </v-btn>
     </v-layout>
@@ -55,6 +55,7 @@ export default {
   data () {
     return {
       receiptId: this.$route.params.receiptId,
+      tabId: null,
       persons: [],
       purchases: [],
       inputRules: [
@@ -66,27 +67,57 @@ export default {
     }
   },
   created: function () {
-    const receipt = this.$store.getters.receiptById(this.receiptId)
-    console.log(receipt)
-    this.persons = receipt.persons
-    // this.persons = this.$store.getters.receiptPersons(receipt)
-    // console.log(this.persons)
-    this.purchases = this.$store.getters.receiptPurchases(receipt)
-    console.log(this.purchases)
-    for (var i = 0; i < this.persons.length; i++) {
+    const receipt = this.$store.getters.receiptById(this.$route.params.receiptId)
+    this.tabId = receipt.tabId
+    for (var i = 0; i < receipt.persons.length; i++) {
+      const persID = receipt.persons[i].id
+      this.persons.push(this.$store.getters.personById(persID))
       // Fill amounts with null since nothing has been inputted yet. Needed for v-model
       this.amounts.push(null)
       // Fill validFields with false since all are invalid at first. needed for v-model
       this.validFields.push(false)
     }
+    this.purchases = this.$store.getters.receiptPurchases(receipt)
   },
   methods: {
     goBack: function () {
       this.$router.back()
     },
-    getPurchaseOfPerson: function (personId) {
-      const ret = this.purchases.filter(purchase => personId === purchase.person)
-      return ret[0]
+    getPurchaseOfPerson: function (index) {
+      return this.purchases[index].price
+    },
+    submit: function () {
+      this.allFieldsValid = this.validFields.every(this.isTrue)
+      if (this.allFieldsValid) {
+        // Edit purchases
+        for (var j = 0; j < this.purchases.length; j++) {
+          var purchaseId = this.purchases[j].id
+          var personId = this.purchases[j].id
+          var price = this.amounts[j]
+          this.editPurchase(purchaseId, personId, price)
+        }
+        this.editReceipt()
+      } else {
+        // TODO: handle
+      }
+    },
+    editPurchase: function (purchaseId, personId, price) {
+      this.$store.dispatch('editPurchase', {
+        id: purchaseId,
+        person: personId,
+        price: price,
+        receiptId: this.receiptId
+      })
+    },
+    editReceipt: function () {
+      this.$store.dispatch('editReceipt', {
+        persons: this.persons,
+        totalPrice: this.amounts.reduce(this.add, 0),
+        tabId: this.tabId
+      })
+    },
+    add: function (a, b) {
+      return a + b
     }
   }
 }

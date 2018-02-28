@@ -35,6 +35,7 @@ const mutations = {
       id: id,
       title: payload.title,
       purchases: payload.purchases,
+      persons: payload.persons,
       totalPrice: totalPrice,
       tabId: payload.tabId
     }

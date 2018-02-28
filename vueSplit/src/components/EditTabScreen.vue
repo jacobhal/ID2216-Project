@@ -80,17 +80,10 @@ export default {
     },
     test: function () {
       var tab = this.tabById(this.tabId)
-      console.log('LOGGING TAB')
-      console.log(tab) // This prints out the tab object
       this.addPerson()
       var person = this.personById(this.$store.state.addedPersonId)
-      console.log('LOGGING PERSON')
-      console.log(person) // This prints out the person object added to store
       this.addPersonToTab(this.$store.state.addedPersonId)
       tab = this.tabById(this.tabId)
-      console.log('LOGGING TAB AGAIN')
-      console.log(tab) // Prints out undefined
-      console.log(this.$store.state.addedPersonId) // Prints out the id of the person added to the store (not tab).
     }
   },
   computed: mapGetters([
