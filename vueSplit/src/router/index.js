@@ -6,6 +6,7 @@ import AddReceiptScreen from '@/components/AddReceiptScreen'
 import AllTabsScreen from '@/components/AllTabsScreen'
 import EditTabScreen from '@/components/EditTabScreen'
 import InputAmountScreen from '@/components/InputAmountScreen'
+import AddPersonScreen from '@/components/AddPersonScreen'
 
 Vue.use(Router)
 
@@ -42,6 +43,11 @@ export default new Router({
       path: '/inputAmount/:tabId/:peopleIds', // :peopleIds are comma separated values of the selected ids e.g. 1,5,6
       name: 'InputAmountScreen',
       component: InputAmountScreen
+    },
+    {
+      path: '/addPerson/:id',
+      name: 'AddPersonScreen',
+      component: AddPersonScreen
     }
   ]
 })

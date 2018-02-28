@@ -1,7 +1,7 @@
 <template>
   <div>
   <v-container v-if="!successfullyAdded">
-    <v-toolbar app>
+    <v-toolbar app flat>
       <v-btn icon @click="goBack">
         <v-icon>fa-angle-left</v-icon>
     </v-btn>
