@@ -142,7 +142,7 @@ export default {
       return value
     },
     routeToHome: function () {
-      this.$router.push({ path: `/home` })
+      this.$router.push({ path: `/home/${this.tabId}` })
     },
     validate: function () {
       this.allFieldsValid = this.validFields.every(this.isTrue)
