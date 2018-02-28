@@ -6,16 +6,21 @@
       </v-btn>
     </v-toolbar>
     <v-container grid-list-md text-xs-center>
-      <h1 class="display-2">Edit Tab: {{ this.tab.title }}</h1>
+      <h1 class="display-2">Edit Tab</h1>
+      <h2 class="subheading">{{ this.tab.title }}</h2>
       <div v-for="receipt in tabReceipts(this.tab)">
         <v-layout row wrap>
           <v-flex xs12>
-            <a @click="">
-              <!-- Add component for one single receipt here -->
-              <h3>{{ receipt.title }}, Price: {{ receipt.totalPrice }}</h3>
-            </a>
-            <v-btn @click="editReceipt(receipt)">Edit</v-btn>
-            <v-btn @click="deleteReceipt(receipt)">Delete</v-btn>
+            <v-card class="tabCard">
+              <v-card-title>
+                <a @click="" class="center-text">
+                  <!-- Add component for one single receipt here -->
+                  <h3>{{ receipt.title }}, Price: {{ receipt.totalPrice }}</h3>
+                </a>
+              </v-card-title>
+              <v-btn @click="editReceipt(receipt)">Edit</v-btn>
+              <v-btn @click="deleteReceipt(receipt)">Delete</v-btn>
+            </v-card>
           </v-flex>
         </v-layout>
       </div>
@@ -97,8 +102,7 @@ export default {
   computed: mapGetters([
     'tabReceipts',
     'tabById',
-    'personById'
-  ])
+    'personById'])
 }
 </script>
 

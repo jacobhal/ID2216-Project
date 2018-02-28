@@ -1,10 +1,5 @@
 <template>
   <div>
-    <v-toolbar app flat>
-      <v-btn icon @click="goBack">
-        <v-icon>fa-angle-left</v-icon>
-      </v-btn>
-    </v-toolbar>
     <v-container grid-list-md text-xs-center>
       <h1 class="display-2">Tabs</h1>
       <h2 class="subheading">{{ e1 }}</h2>
@@ -15,8 +10,8 @@
             <v-card-title>
               <a class="center-text" @click="routeToEditTabScreen(tab.id)">{{ tab.title }}</a>
             </v-card-title>
-            <v-btn class="high-priority" @click="deleteTab(tab)">Delete</v-btn>
-            <v-btn class="high-priority" @click="toggleTab(tab)">Toggle status</v-btn>
+            <v-btn @click="deleteTab(tab)">Delete</v-btn>
+            <v-btn @click="toggleTab(tab)">Toggle status</v-btn>
           </v-card>
         </v-flex>
       </v-layout>
@@ -85,8 +80,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'tabs'
-    ])
+      'tabs'])
   }
 }
 </script>

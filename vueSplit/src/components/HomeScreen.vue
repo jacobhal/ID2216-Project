@@ -8,6 +8,8 @@
     </v-container>
 
     <v-container grid-list-xs text-xs-center push-down>
+      <!-- TODO: Remove this button and add a close tab button with the same functionality -->
+      <v-btn @click="sendSMS">Send SMS</v-btn>
       <v-layout row wrap>
         <v-flex xs6>
           <v-btn @click="routeToEditTabScreen"  fab dark large color="red">
@@ -43,6 +45,9 @@ export default {
     },
     routeToEditTabScreen: function () {
       this.$router.push({ name: 'EditTabScreen', params: { id: this.id } })
+    },
+    sendSMS: function () {
+      alert('Sending sms...')
     }
   },
   computed: mapGetters([

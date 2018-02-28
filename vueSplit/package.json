@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "dns": "^0.2.2",
     "font-awesome": "^4.7.0",
     "uuid": "^3.2.1",
     "vue": "^2.5.2",
