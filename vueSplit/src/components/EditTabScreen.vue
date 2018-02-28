@@ -18,7 +18,7 @@
                   <h3>{{ receipt.title }}, Price: {{ receipt.totalPrice }}</h3>
                 </a>
               </v-card-title>
-              <v-btn @click="editReceipt(receipt)">Edit</v-btn>
+              <v-btn @click="editReceipt(receipt.id)">Edit</v-btn>
               <v-btn @click="deleteReceipt(receipt)">Delete</v-btn>
             </v-card>
           </v-flex>
@@ -59,14 +59,8 @@ export default {
         tabId: this.tabId
       })
     },
-    editReceipt: function (receipt) {
-      this.$store.dispatch('editReceipt', {
-        id: receipt.id,
-        title: 'TEST',
-        purchases: this.purchases,
-        totalPrice: receipt.totalPrice,
-        tabId: this.tabId
-      })
+    editReceipt: function (receiptId) {
+      this.$router.push({ path: `/inputEdit/${receiptId}/` })
     },
     deleteReceipt: function (receipt) {
       this.$store.dispatch('deleteReceipt', receipt)

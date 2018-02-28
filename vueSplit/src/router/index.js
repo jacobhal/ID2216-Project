@@ -7,6 +7,7 @@ import AllTabsScreen from '@/components/AllTabsScreen'
 import EditTabScreen from '@/components/EditTabScreen'
 import InputAmountScreen from '@/components/InputAmountScreen'
 import AddPersonScreen from '@/components/AddPersonScreen'
+import InputEditScreen from '@/components/InputEditScreen'
 
 Vue.use(Router)
 
@@ -48,6 +49,11 @@ export default new Router({
       path: '/addPerson/:id',
       name: 'AddPersonScreen',
       component: AddPersonScreen
+    },
+    {
+      path: '/inputEdit/:receiptId',
+      name: 'InputEditScreen',
+      component: InputEditScreen
     }
   ]
 })
