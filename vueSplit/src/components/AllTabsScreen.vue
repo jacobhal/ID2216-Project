@@ -8,7 +8,7 @@
           <v-card class="tabCard">
             <!-- Add component for one single tab here -->
             <v-card-title>
-              <a class="center-text" @click="routeToEditTabScreen(tab.id)">{{ tab.title }}</a>
+              <a class="center-text" @click="routeToHomeScreen(tab.id)">{{ tab.title }}</a>
             </v-card-title>
             <v-btn @click="deleteTab(tab)">Delete</v-btn>
             <v-btn @click="toggleTab(tab)">Toggle status</v-btn>
@@ -52,8 +52,8 @@ export default {
     goBack: function () {
       this.$router.back()
     },
-    routeToEditTabScreen: function (id) {
-      this.$router.push({name: 'EditTabScreen', params: { id: id }})
+    routeToHomeScreen: function (id) {
+      this.$router.push({name: 'HomeScreen', params: { id: id }})
     },
     // Store methods
     getTab (e) {
