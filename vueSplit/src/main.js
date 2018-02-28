@@ -25,6 +25,7 @@ import {
   VAlert,
   VDialog,
   VBottomNav,
+  VSnackbar,
   transitions
 } from 'vuetify'
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -51,6 +52,7 @@ Vue.use(Vuetify, {
     VAlert,
     VDialog,
     VBottomNav,
+    VSnackbar,
     transitions
   }
 })
