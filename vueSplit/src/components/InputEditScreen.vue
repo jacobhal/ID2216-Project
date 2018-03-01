@@ -25,10 +25,10 @@
                 <v-list-tile-action>
                   <v-form v-model="validFields[index]">
                     <v-text-field
-                    label="Amount"
                     full-width
                     append-icon="delete"
-                    v-bind:value="getPurchaseOfPerson(index)"
+                    label="Amount"
+                    v-bind:value="person.name"
                     :rules="inputRules"
                     v-model="amounts[index]"
                     ></v-text-field>
@@ -56,6 +56,7 @@ export default {
   data () {
     return {
       receiptId: this.$route.params.receiptId,
+      receipt: null,
       receiptTitle: '',
       tabId: null,
       persons: [],
@@ -83,8 +84,14 @@ export default {
     goBack: function () {
       this.$router.back()
     },
-    getPurchaseOfPerson: function (index) {
-      return this.purchases[index].price
+    getPurchaseOfPerson: function (id) {
+      var ret = null
+      for (var i = 0; i < this.purchases.length; i++) {
+        if (this.purchases[i].person === id) {
+          ret = this.purchases[i].price
+        }
+      }
+      return String(ret)
     },
     submit: function () {
       this.allFieldsValid = this.validFields.every(this.isTrue)

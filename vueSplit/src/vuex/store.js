@@ -129,11 +129,15 @@ const mutations = {
   },
   ADD_PERSON_TO_RECEIPT (state, payload) {
     var receiptIndex = state.receipts.findIndex(currentReceipt => currentReceipt.id === payload.receiptId)
-    state.receipts[receiptIndex].persons.push(payload.personId)
+    if (!state.receipts[receiptIndex].persons.includes(payload.personId)) {
+      state.receipts[receiptIndex].persons.push(payload.personId)
+    }
   },
   ADD_PERSON_TO_TAB (state, payload) {
     var tabIndex = state.tabs.findIndex(currentTab => currentTab.id === payload.tabId)
-    state.tabs[tabIndex].persons.push(payload.personId)
+    if (!state.tabs[tabIndex].persons.includes(payload.personId)) {
+      state.tabs[tabIndex].persons.push(payload.personId)
+    }
   },
   DELETE_PERSON_FROM_RECEIPT (state, payload) {
     var receiptIndex = state.receipts.findIndex(currentReceipt => currentReceipt.id === payload.receiptId)
