@@ -115,9 +115,9 @@ const mutations = {
       var totalPrice = 0
       var purchases = state.purchases.filter(purchase => receipt.purchases.includes(purchase.id))
       for (var i = purchases.length - 1; i >= 0; i--) {
-        totalPrice += purchases[i].price
+        totalPrice = +totalPrice + +purchases[i].price
       }
-      receipt.totalPrice = totalPrice
+      Vue.set(receipt, 'totalPrice', totalPrice)
     }
   },
   EDIT_PERSON (state, person) {

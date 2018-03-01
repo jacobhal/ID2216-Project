@@ -43,10 +43,7 @@ export default {
   data () {
     return {
       e1: 'Running',
-      tabTitle: '',
-      persons: ['1', '2', '3'],
-      receipts: ['2', '3', '4']
-    }
+      tabTitle: ''    }
   },
   methods: {
     goBack: function () {

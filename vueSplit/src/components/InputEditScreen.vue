@@ -17,7 +17,7 @@
       <v-flex xs12>
         <v-card>
           <v-list>
-            <template v-for="(person, index) in persons">
+            <template v-for="(person, index) in this.$store.getters.receiptPersons(this.receipt)">
               <v-list-tile>
                 <v-list-tile-content>
                   <v-list-tile-title>{{ person.name }}</v-list-tile-title>
@@ -25,12 +25,12 @@
                 <v-list-tile-action>
                   <v-form v-model="validFields[index]">
                     <v-text-field
-                      label="Amount"
-                      full-width
-                      append-icon="delete"
-                      v-bind:value="getPurchaseOfPerson(index)"
-                      :rules="inputRules"
-                      v-model="amounts[index]"
+                    label="Amount"
+                    full-width
+                    append-icon="delete"
+                    v-bind:value="getPurchaseOfPerson(index)"
+                    :rules="inputRules"
+                    v-model="amounts[index]"
                     ></v-text-field>
                   </v-form>
                 </v-list-tile-action>
@@ -50,34 +50,34 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'InputEditScreen',
   data () {
     return {
       receiptId: this.$route.params.receiptId,
+      receiptTitle: '',
       tabId: null,
       persons: [],
       purchases: [],
+      allFieldsValid: false,
       inputRules: [
         // () => !!this.amounts[0] || 'This field is required',
-        v => /^\d+(\.\d+)?$/.test(v) || 'Field can only contain numbers'
-      ],
+        v => /^\d+(\.\d+)?$/.test(v) || 'Field can only contain numbers'],
       amounts: [], // Inputted amount, tied to form
       validFields: [] // boolean for if input field is valid
     }
   },
   created: function () {
-    const receipt = this.$store.getters.receiptById(this.$route.params.receiptId)
-    this.tabId = receipt.tabId
-    for (var i = 0; i < receipt.persons.length; i++) {
-      const persID = receipt.persons[i].id
-      this.persons.push(this.$store.getters.personById(persID))
+    this.receipt = this.$store.getters.receiptById(this.$route.params.receiptId)
+    this.tabId = this.receipt.tabId
+    for (var i = 0; i < this.receipt.persons.length; i++) {
       // Fill amounts with null since nothing has been inputted yet. Needed for v-model
       this.amounts.push(null)
       // Fill validFields with false since all are invalid at first. needed for v-model
       this.validFields.push(false)
     }
-    this.purchases = this.$store.getters.receiptPurchases(receipt)
+    this.purchases = this.$store.getters.receiptPurchases(this.receipt)
   },
   methods: {
     goBack: function () {
@@ -97,9 +97,13 @@ export default {
           this.editPurchase(purchaseId, personId, price)
         }
         this.editReceipt()
+        this.$router.push({ name: 'EditTabScreen', params: { id: this.tabId } })
       } else {
         // TODO: handle
       }
+    },
+    isTrue: function (value) {
+      return value
     },
     editPurchase: function (purchaseId, personId, price) {
       this.$store.dispatch('editPurchase', {
@@ -111,14 +115,19 @@ export default {
     },
     editReceipt: function () {
       this.$store.dispatch('editReceipt', {
+        title: this.receipt.title,
+        id: this.$route.params.receiptId,
         persons: this.persons,
-        totalPrice: this.amounts.reduce(this.add, 0),
+        totalPrice: this.receipt.totalPrice,
         tabId: this.tabId
       })
     },
     add: function (a, b) {
       return a + b
-    }
+    },
+    computed: mapGetters([
+      'receiptPersons',
+      'personById'])
   }
 }
 </script>
