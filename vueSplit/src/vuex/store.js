@@ -35,6 +35,7 @@ const mutations = {
       id: id,
       title: payload.title,
       purchases: payload.purchases,
+      persons: payload.persons,
       totalPrice: totalPrice,
       tabId: payload.tabId
     }
@@ -114,9 +115,9 @@ const mutations = {
       var totalPrice = 0
       var purchases = state.purchases.filter(purchase => receipt.purchases.includes(purchase.id))
       for (var i = purchases.length - 1; i >= 0; i--) {
-        totalPrice += purchases[i].price
+        totalPrice = +totalPrice + +purchases[i].price
       }
-      receipt.totalPrice = totalPrice
+      Vue.set(receipt, 'totalPrice', totalPrice)
     }
   },
   EDIT_PERSON (state, person) {
@@ -128,11 +129,15 @@ const mutations = {
   },
   ADD_PERSON_TO_RECEIPT (state, payload) {
     var receiptIndex = state.receipts.findIndex(currentReceipt => currentReceipt.id === payload.receiptId)
-    state.receipts[receiptIndex].persons.push(payload.personId)
+    if (!state.receipts[receiptIndex].persons.includes(payload.personId)) {
+      state.receipts[receiptIndex].persons.push(payload.personId)
+    }
   },
   ADD_PERSON_TO_TAB (state, payload) {
     var tabIndex = state.tabs.findIndex(currentTab => currentTab.id === payload.tabId)
-    state.tabs[tabIndex].persons.push(payload.personId)
+    if (!state.tabs[tabIndex].persons.includes(payload.personId)) {
+      state.tabs[tabIndex].persons.push(payload.personId)
+    }
   },
   DELETE_PERSON_FROM_RECEIPT (state, payload) {
     var receiptIndex = state.receipts.findIndex(currentReceipt => currentReceipt.id === payload.receiptId)

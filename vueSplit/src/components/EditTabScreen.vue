@@ -8,7 +8,7 @@
     <v-container grid-list-md text-xs-center>
       <h1 class="display-2">Edit Tab</h1>
       <h2 class="subheading">{{ this.tab.title }}</h2>
-      <div v-for="receipt in tabReceipts(this.tab)">
+      <div v-for="receipt in this.$store.getters.tabReceipts(this.tab)">
         <v-layout row wrap>
           <v-flex xs12>
             <v-card class="tabCard">
@@ -18,14 +18,12 @@
                   <h3>{{ receipt.title }}, Price: {{ receipt.totalPrice }}</h3>
                 </a>
               </v-card-title>
-              <v-btn @click="editReceipt(receipt)">Edit</v-btn>
+              <v-btn @click="editReceipt(receipt.id)">Edit</v-btn>
               <v-btn @click="deleteReceipt(receipt)">Delete</v-btn>
             </v-card>
           </v-flex>
         </v-layout>
       </div>
-      <input v-model='receiptTitle' placeholder="Receipt title">
-      <v-btn @click="addReceipt">Add new receipt</v-btn>
     </v-container>
   </div>
 </template>
@@ -38,65 +36,21 @@ export default {
   data () {
     return {
       receiptTitle: '',
-      purchases: ['1', '2', '3'],
-      persons: ['1', '2', '3'],
       tabId: this.$route.params.id
     }
   },
   created: function () {
-    this.tab = this.$store.getters.tabById(this.$route.params.id)
-    this.test()
+    this.tab = this.$store.getters.tabById(this.tabId)
   },
   methods: {
     goBack: function () {
       this.$router.back()
     },
-    addReceipt: function () {
-      this.$store.dispatch('addReceipt', {
-        title: this.receiptTitle,
-        purchases: this.purchases,
-        persons: this.persons,
-        tabId: this.tabId
-      })
-    },
-    editReceipt: function (receipt) {
-      this.$store.dispatch('editReceipt', {
-        id: receipt.id,
-        title: 'TEST',
-        purchases: this.purchases,
-        totalPrice: receipt.totalPrice,
-        tabId: this.tabId
-      })
+    editReceipt: function (receiptId) {
+      this.$router.push({ path: `/inputEdit/${receiptId}/` })
     },
     deleteReceipt: function (receipt) {
       this.$store.dispatch('deleteReceipt', receipt)
-    },
-    // TODO: Remove the 3 functions below later
-    addPerson: function () {
-      this.$store.dispatch('addPerson', {
-        name: 'Henry',
-        phoneNumber: '123'
-      })
-    },
-    addPersonToTab: function (pId) {
-      this.$store.dispatch('addPersonToTab', {
-        tabId: this.tabId,
-        personId: pId
-      })
-    },
-    test: function () {
-      var tab = this.tabById(this.tabId)
-      console.log('LOGGING TAB')
-      console.log(tab) // This prints out the tab object
-      this.addPerson()
-      var person = this.personById(this.$store.state.addedPersonId)
-      console.log('LOGGING PERSON')
-      console.log(person) // This prints out the person object added to store
-      this.addPersonToTab(this.$store.state.addedPersonId)
-      tab = this.tabById(this.tabId)
-      console.log('LOGGING TAB AGAIN')
-      console.log(tab) // Prints out undefined
-      console.log(this.$store.state.addedPersonId) // Prints out the id of the person added to the store (not tab).
     }
   },
   computed: mapGetters([
