@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container fluid text-xs-center>
+    <v-container class="cont" fluid text-xs-center>
       <h1 class="display-2">{{ this.tab.title }}</h1>
       <p class="subheading">
         Add receipts by clicking the plus button or see receipts on this tab with the list button
@@ -195,5 +195,9 @@ export default {
 }
 .push-down{
   margin-top: 50%;
+}
+
+.cont {
+  padding-top: 80px;
 }
 </style>
