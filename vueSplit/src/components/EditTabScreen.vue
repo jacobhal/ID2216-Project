@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     goBack: function () {
-      this.$router.back()
+      this.$router.push({ name: 'HomeScreen', params: { id: this.tabId } })
     },
     editReceipt: function (receiptId) {
       this.$router.push({ path: `/inputEdit/${receiptId}/` })

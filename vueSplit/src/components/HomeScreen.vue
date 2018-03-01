@@ -6,8 +6,7 @@
         Add receipts by clicking the plus button or see receipts on this tab with the list button
       </p>
       <div v-if="this.tab.running === true">
-        <v-btn  @click="dialog3 = true">Close this tab</v-btn>
-        <v-btn  color="green darken-1" @click="closeTab">TMP</v-btn>
+        <v-btn  @click="closeTab">Close this tab</v-btn>
         <v-layout row wrap grid-list-xs text-xs-center push-down>
           <v-flex xs6>
             <v-btn @click="routeToEditTabScreen"  fab dark large color="red">
@@ -21,9 +20,20 @@
           </v-flex>
         </v-layout>
       </div>
-      <v-alert v-else type="info" :value="true">
-        This tab has been closed
-      </v-alert>
+      <div v-else >
+        <v-alert type="info" :value="true">
+          This tab has been closed
+        </v-alert>
+        <v-card>
+          <v-list two-line>
+            <template v-for="result in results">
+              <v-subheader class="center-text">
+                {{ result }}
+              </v-subheader>
+            </template>
+          </v-list>
+        </v-card>
+      </div>
     </v-container>
 
     <v-dialog v-model="dialog3" max-width="500px">
@@ -73,6 +83,7 @@ export default {
   },
   created: function () {
     this.tab = this.$store.getters.tabById(this.id)
+    this.results = []
   },
   methods: {
     routeToAddReceiptScreen: function () {
@@ -81,10 +92,13 @@ export default {
     routeToEditTabScreen: function () {
       this.$router.push({ name: 'EditTabScreen', params: { id: this.id } })
     },
+    round: function (value, decimals) {
+      return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals)
+    },
     closeTab: function () {
       this.dialog3 = false
       this.snackbar = true
-      // this.$store.dispatch('toggleTab', this.tab)
+      this.$store.dispatch('toggleTab', this.tab)
       var tabPersons = this.tab.persons
       var personCosts = {}
       // Create object to hold costs for all persons in this tab
@@ -147,17 +161,20 @@ export default {
         if (leastPositive > leastNegative) {
           negativeBalance.splice(0, 1)
           positiveBalance.splice(0, 1, [leastPositivePerson, leastPositive - leastNegative])
-          console.log(this.personById(leastPositivePerson).name + ' pays ' + leastNegative + ' kr to ' + this.personById(leastNegativePerson).name)
+          this.results.push(this.personById(leastPositivePerson).name + ' pays ' + this.round(leastNegative, 0) + ' kr to ' + this.personById(leastNegativePerson).name)
+          console.log(this.personById(leastPositivePerson).name + ' pays ' + this.round(leastNegative, 0) + ' kr to ' + this.personById(leastNegativePerson).name)
           // TODO: SMS, Person positiveBalance[0][0] should pay a sum of leastNegative to negativeBalance[0][0]
         } else if (leastNegative > leastPositive) {
           positiveBalance.splice(0, 1)
           negativeBalance.splice(0, 1, [leastNegativePerson, leastNegative - leastPositive])
-          console.log(this.personById(leastPositivePerson).name + ' pays ' + leastPositive + ' kr to ' + this.personById(leastNegativePerson).name)
+          this.results.push(this.personById(leastPositivePerson).name + ' pays ' + this.round(leastPositive, 0) + ' kr to ' + this.personById(leastNegativePerson).name)
+          console.log(this.personById(leastPositivePerson).name + ' pays ' + this.round(leastPositive, 0) + ' kr to ' + this.personById(leastNegativePerson).name)
           // TODO: SMS, Person positiveBalance[0][0] should pay a sum of leastPositive to negativeBalance[0][0]
         } else {
           positiveBalance.splice(0, 1)
           negativeBalance.splice(0, 1)
-          console.log(this.personById(leastPositivePerson).name + ' pays ' + leastPositive + ' kr to ' + this.personById(leastNegativePerson).name)
+          this.results.push(this.personById(leastPositivePerson).name + ' pays ' + this.round(leastPositive, 0) + ' kr to ' + this.personById(leastNegativePerson).name)
+          console.log(this.personById(leastPositivePerson).name + ' pays ' + this.round(leastPositive, 0) + ' kr to ' + this.personById(leastNegativePerson).name)
           // TODO: SMS, Person positiveBalance[0][0] should pay a sum of leastPositive to negativeBalance[0][0]
         }
       }

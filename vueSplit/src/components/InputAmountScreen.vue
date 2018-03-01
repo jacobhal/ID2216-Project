@@ -130,7 +130,7 @@ export default {
         const tab = this.$store.getters.tabById(this.tabId)
         // Add purchases to receipt
         for (var i = 0; i < this.persons.length; i++) {
-          if(this.persons[i] !== undefined) {
+          if (this.persons[i] !== undefined) {
             this.addPurchase(this.persons[i].id, parseFloat(this.amounts[i]), this.$store.state.addedReceiptId)
             this.addPersonToTab(this.persons[i].id)
             this.addPersonToReceipt(this.persons[i].id, this.$store.state.addedReceiptId)

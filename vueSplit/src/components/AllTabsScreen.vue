@@ -43,7 +43,8 @@ export default {
   data () {
     return {
       e1: 'Running',
-      tabTitle: ''    }
+      tabTitle: ''
+    }
   },
   methods: {
     goBack: function () {
