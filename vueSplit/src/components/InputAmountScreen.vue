@@ -72,7 +72,7 @@
         </v-btn>
       </v-layout>
     </v-container>
-    <v-container v-if="successfullyAdded" class="text-xs-center">
+    <v-container v-if="successfullyAdded" class="text-xs-center cont">
       <v-icon size="30vw" transition="fade-transition" color="green">check_circle</v-icon>
       <p class="display-1" transition="fade-transition">Receipt successfully added!</p>
       <v-btn @click="routeToHome" dark color="green">Continue
@@ -195,5 +195,8 @@ export default {
 }
 #secondCard {
   margin-top: 10%
+}
+.cont{
+  padding-top: 150px
 }
 </style>
