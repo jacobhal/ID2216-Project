@@ -7,6 +7,7 @@
       </p>
       <div v-if="this.tab.running === true">
         <v-btn  @click="dialog3 = true">Close this tab</v-btn>
+        <v-btn  color="green darken-1" @click="closeTab">TMP</v-btn>
         <v-layout row wrap grid-list-xs text-xs-center push-down>
           <v-flex xs6>
             <v-btn @click="routeToEditTabScreen"  fab dark large color="red">
@@ -83,12 +84,90 @@ export default {
     closeTab: function () {
       this.dialog3 = false
       this.snackbar = true
-      this.$store.dispatch('toggleTab', this.tab)
-      // TODO: Send SMS to people in the tab
+      // this.$store.dispatch('toggleTab', this.tab)
+      var tabPersons = this.tab.persons
+      var personCosts = {}
+      // Create object to hold costs for all persons in this tab
+      for (var k = 0; k < tabPersons.length; k++) {
+        personCosts[tabPersons[k]] = 0
+      }
+
+      var tabReceipts = this.tabReceipts(this.tab)
+      // Loop through all receipts in this tab
+      for (var i = 0; i < tabReceipts.length; i++) {
+        var currentReceipt = tabReceipts[i]
+        // Loop through all purchases in this receipt
+        for (var j = 0; j < currentReceipt.purchases.length; j++) {
+          var currentPurchase = this.purchaseById(currentReceipt.purchases[j])
+          personCosts[currentPurchase.person] += currentPurchase.price
+        }
+      }
+
+      // Calculate total cost of tab
+      var totalCost = 0
+      for (var p1 in personCosts) {
+        totalCost += personCosts[p1]
+      }
+
+      // Get number of people in tab
+      var nrOfPersons = Object.keys(personCosts).length
+
+      // Calculate expense per person
+      var expensePerPerson = totalCost / nrOfPersons
+
+      // Update personCosts with how much they owe or are owed by the central pool
+      for (var p2 in personCosts) {
+        personCosts[p2] = expensePerPerson - personCosts[p2]
+      }
+
+      // Persons with positive balance have money left to pay
+      // Persons with negative balance are owed money
+      // Sort the persons by lowest debts first
+      var positiveBalance = []
+      var negativeBalance = []
+      for (var p3 in personCosts) {
+        if (personCosts[p3] >= 0) {
+          positiveBalance.push([p3, personCosts[p3]])
+        } else {
+          negativeBalance.push([p3, personCosts[p3]])
+        }
+      }
+      positiveBalance.sort(function (a, b) { return a[1] - b[1] })
+      negativeBalance.sort(function (a, b) { return a[1] - b[1] })
+
+      for (var p4 in personCosts) {
+        personCosts[p4] = false
+      }
+
+      while (positiveBalance.length > 0 && negativeBalance.length > 0) {
+        var leastPositive = positiveBalance[0][1]
+        var leastNegative = Math.abs(negativeBalance[0][1])
+        var leastPositivePerson = positiveBalance[0][0]
+        var leastNegativePerson = negativeBalance[0][0]
+        if (leastPositive > leastNegative) {
+          negativeBalance.splice(0, 1)
+          positiveBalance.splice(0, 1, [leastPositivePerson, leastPositive - leastNegative])
+          console.log(this.personById(leastPositivePerson).name + ' pays ' + leastNegative + ' kr to ' + this.personById(leastNegativePerson).name)
+          // TODO: SMS, Person positiveBalance[0][0] should pay a sum of leastNegative to negativeBalance[0][0]
+        } else if (leastNegative > leastPositive) {
+          positiveBalance.splice(0, 1)
+          negativeBalance.splice(0, 1, [leastNegativePerson, leastNegative - leastPositive])
+          console.log(this.personById(leastPositivePerson).name + ' pays ' + leastPositive + ' kr to ' + this.personById(leastNegativePerson).name)
+          // TODO: SMS, Person positiveBalance[0][0] should pay a sum of leastPositive to negativeBalance[0][0]
+        } else {
+          positiveBalance.splice(0, 1)
+          negativeBalance.splice(0, 1)
+          console.log(this.personById(leastPositivePerson).name + ' pays ' + leastPositive + ' kr to ' + this.personById(leastNegativePerson).name)
+          // TODO: SMS, Person positiveBalance[0][0] should pay a sum of leastPositive to negativeBalance[0][0]
+        }
+      }
     }
   },
   computed: mapGetters([
-    'tabById'])
+    'tabById',
+    'tabReceipts',
+    'personById',
+    'purchaseById'])
 }
 </script>
 
